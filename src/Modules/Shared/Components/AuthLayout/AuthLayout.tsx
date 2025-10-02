@@ -4,7 +4,7 @@ import logo from "../../../../assets/Images/logo.png";
 
 export default function AuthLayout() {
   return (
-    <div className="bg-[#0D1321] w-screen h-screen flex justify-between items-center py-5 px-8 text-white">
+    <div className="bg-[#0D1321] w-screen h-screen flex flex-col lg:flex-row justify-between items-center p-8 text-white">
 
       <div className="flex flex-col justify-between h-full">
         <div className="flex justify-start">
@@ -15,8 +15,8 @@ export default function AuthLayout() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center h-full">
-        <img src={authImg} alt="auth img" className="max-h-full" />
+      <div className="flex items-center justify-center h-full mt-10 lg:mt-0 w-[100%] lg:w-1/2">
+        <img src={authImg} alt="auth img" className="w-[100%] lg:w-[90%] max-h-full" />
       </div>
     </div>
   );
