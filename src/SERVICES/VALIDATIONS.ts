@@ -17,3 +17,8 @@ export const PASSWORD_VALIDATION = {
         message: 'The password must include at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 6 characters long'
     }
 }
+
+export const CONFIRM_PASSWORD_VALIDATION = (password:string)=>({
+    required: 'Please confirm your password', 
+    validate: (value:string) => value === password || 'Passwords must match' 
+})

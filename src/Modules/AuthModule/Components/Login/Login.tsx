@@ -28,7 +28,8 @@ export default function Login() {
     try {
       const response = await axiosInstance.post(AUTH_URLS.LOGIN, data);
       console.log(response)
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response?.data?.data?.accessToken);
+      localStorage.setItem('profile', JSON.stringify(response?.data?.data?.profile));
       toast.success(`Welcome to QuizWiz!`);
       navigate('/dashboard');
 

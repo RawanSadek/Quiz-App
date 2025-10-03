@@ -25,5 +25,5 @@ export const AUTH_URLS = {
   REGISTER: `${authBaseURL}/register`,
   FORGET_PASSWORD: `${authBaseURL}/forgot-password`,
   RESET_PASSWORD: `${authBaseURL}/reset-password`,
-  CHANGEPASSWORD: `${authBaseURL}/change-password`,
+  CHANGE_PASSWORD: `${authBaseURL}/change-password`,
 };
