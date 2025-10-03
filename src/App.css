@@ -1,3 +1,15 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
+}
+
+.auth-title {
+  color: #c5d86d;
+  margin: 40px 0px;
+  font-size: 26px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.auth-input-lable {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande","Lucida Sans", Arial, sans-serif !important;
 }
