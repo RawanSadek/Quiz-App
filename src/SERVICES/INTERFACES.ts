@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface loginDataTypes {
   email: string;
   password: string;
@@ -24,4 +26,8 @@ export interface ChangePasswordTypes {
   password: string;
   password_new: string;
   confirmPassword: string;
+}
+
+export interface ProtectedRoutesProps {
+  children: ReactNode;
 }

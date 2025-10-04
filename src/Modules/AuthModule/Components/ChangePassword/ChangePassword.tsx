@@ -93,7 +93,7 @@ export default function ChangePassword() {
               type={showNewPass ? "text" : "password"}
               id="password_new"
               className="bg-transparent text-sm block w-full p-2.5 placeholder-white focus:outline-none"
-              placeholder="Type your password_new"
+              placeholder="Type your new password"
             />
             {!showNewPass ? (
               <FaEye

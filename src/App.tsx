@@ -17,6 +17,7 @@ import QuestionsList from "./Modules/Questions/Components/QuestionsList";
 import ResultsList from "./Modules/Results/Components/ResultsList";
 import ResultDetails from "./Modules/Results/Components/ResultDetails";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoutes from "./Modules/Shared/Components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const routes = createBrowserRouter([
@@ -36,7 +37,7 @@ function App() {
 
     {
       path: "dashboard",
-      element: <MasterLayout />,
+      element: <ProtectedRoutes><MasterLayout /></ProtectedRoutes>,
       errorElement: <NotFound />,
       children: [
         { path: "", element: <Dashboard /> },
