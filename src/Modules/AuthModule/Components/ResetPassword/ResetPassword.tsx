@@ -3,7 +3,7 @@ import { MdEmail } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { ResetPasswordTypes } from "../../../../SERVICES/INTERFACES";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CONFIRM_PASSWORD_VALIDATION,
   PASSWORD_VALIDATION,
@@ -20,6 +20,8 @@ export default function ResetPassword() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    trigger,
   } = useForm<ResetPasswordTypes>();
 
   const onSubmit = async (data: ResetPasswordTypes) => {
@@ -43,6 +45,11 @@ export default function ResetPassword() {
 
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+
+   useEffect(() => {
+      if (watch('confirmPassword'))
+        trigger('confirmPassword');
+    }, [watch('password')])
 
   return (
     <div className="block w-full">

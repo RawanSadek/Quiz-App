@@ -2,7 +2,7 @@ import { FaCheckCircle, FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { ChangePasswordTypes } from "../../../../SERVICES/INTERFACES";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CONFIRM_PASSWORD_VALIDATION,
   PASSWORD_VALIDATION,
@@ -18,6 +18,8 @@ export default function ChangePassword() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    trigger,
   } = useForm<ChangePasswordTypes>();
 
   const onSubmit = async (data: ChangePasswordTypes) => {
@@ -42,12 +44,16 @@ export default function ChangePassword() {
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
+  useEffect(() => {
+    if (watch("confirmPassword")) 
+      trigger("confirmPassword");
+  }, [watch("password_new")]);
+
   return (
     <div className="block w-full">
       <h2 className="auth-title">Change Passsword</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="my-8">
-
         {/* old password */}
         <div className="mb-5">
           <label htmlFor="password" className="auth-input-lable block mb-1">
@@ -110,7 +116,9 @@ export default function ChangePassword() {
             )}
           </div>
           {errors.password_new && (
-            <p className="text-red-700">{errors.password_new.message as string}</p>
+            <p className="text-red-700">
+              {errors.password_new.message as string}
+            </p>
           )}
         </div>
 
