@@ -15,14 +15,20 @@ import { REQUIRED_VALIDATION } from "../../../../SERVICES/VALIDATIONS";
 import { toast } from "react-toastify";
 import { AUTH_URLS, axiosInstance } from "../../../../SERVICES/ENDPOINTS";
 import type { AxiosError } from "axios";
+import { useDispatch } from "react-redux";
+import { getUserProfileData } from "../../../Redux/UserDataSlice";
 
 export default function Login() {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<loginDataTypes>();
+
+  // const userData = useSelector((state: RootState) => state.userProfileData.userProfile);
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: loginDataTypes) => {
     try {
@@ -30,6 +36,7 @@ export default function Login() {
       console.log(response)
       localStorage.setItem('token', response?.data?.data?.accessToken);
       localStorage.setItem('profile', JSON.stringify(response?.data?.data?.profile));
+      dispatch(getUserProfileData()); 
       toast.success(`Welcome to QuizWiz!`);
       navigate('/dashboard');
 
