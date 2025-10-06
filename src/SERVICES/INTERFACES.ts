@@ -13,6 +13,7 @@ export interface UserDataTypes {
   role: "Instructor" | "Student";
   _id:string;
   status:string;
+  profilePicture?:string;
 }
 
 export interface ResetPasswordTypes {

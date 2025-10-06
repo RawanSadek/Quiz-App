@@ -10,7 +10,7 @@ export default function MasterLayout() {
       </div>
 
       <div className="flex flex-col min-h-screen w-[80%]">
-        <div className=" bg-red-300">
+        <div>
           <Navbar />
         </div>
 

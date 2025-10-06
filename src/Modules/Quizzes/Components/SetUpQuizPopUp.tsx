@@ -1,5 +1,5 @@
 
-export default function QuizPopUp() {
+export default function SetUpQuizPopUp() {
   return (
     <div>
       QuizPopUp
