@@ -14,7 +14,7 @@ export default function MasterLayout() {
           <Navbar />
         </div>
 
-        <div className="bg-blue-300 flex-grow">
+        <div className="flex-grow">
           <Outlet />
         </div>
       </div>
