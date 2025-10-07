@@ -32,3 +32,20 @@ export interface ChangePasswordTypes {
 export interface ProtectedRoutesProps {
   children: ReactNode;
 }
+
+export interface QuestionTypes {
+  _id?: string;
+  title: string;
+  description: string;
+  options: {
+    "A": string;
+    "B": string;
+    "C": string;
+    "D": string;
+    _id: string;
+  };
+  answer: "A" | "B" | "C" | "D";
+  difficulty: "easy" | "medium" | "hard";
+  points: number;
+  type: string
+}
