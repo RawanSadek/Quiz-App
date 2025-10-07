@@ -46,3 +46,44 @@ button:disabled{
 .ps-menu-button:hover{
   border-right: 4px solid black !important;
 }
+
+@media (max-width: 1100px) {
+  table thead {
+    display: none; /* hide headers */
+  }
+
+  table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 3px solid #f3f3f3;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  /* table tbody tr:hover {
+    background-color: #f3f3f3;
+  } */
+
+  table tbody tr td {
+    border-radius: 7px !important;
+  }
+
+  table tbody tr .table-data {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 10px;
+    box-shadow: none;
+}
+  table tbody tr .table-data::before {
+    content: attr(data-label);
+    font-weight: bold;
+  }
+
+  table tbody tr td[colspan] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
