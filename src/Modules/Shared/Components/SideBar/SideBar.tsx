@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { RiHome6Line } from 'react-icons/ri';
 import { TbFileLike, TbMessageQuestion } from 'react-icons/tb';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from "../../../Redux/Store";
 import { IoMdMenu } from 'react-icons/io';
@@ -20,14 +20,16 @@ export default function SideBar() {
 
   const [collapsed, setCollapsed] = useState(false);
 
-  // useEffect(() => {
-  //   if (window.innerWidth < 768) {
-  //     setCollapsed(true);
-  //   } else {
-  //     setCollapsed(false);
-  //   } 
-  // }, [window.innerWidth]);
+  useEffect(() => {
+  const handleResize = () => {
+    setCollapsed(window.innerWidth < 795);
+  };
 
+  handleResize();
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
   return (
     <Sidebar collapsed={collapsed} className='h-full'>
         <div className='py-4 flex justify-evenly items-center border-b-2 border-gray-200'><IoMdMenu onClick={()=>setCollapsed(!collapsed)} size={34} className='cursor-pointer hover:text-gray-700'/>
