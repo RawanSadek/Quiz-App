@@ -1,5 +1,4 @@
 import { FaBell, FaChevronDown, FaChevronUp } from "react-icons/fa";
-// import homeLogo from '../../../../assets/Images/homeLogo.png';
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 import { BsList } from "react-icons/bs";
@@ -26,12 +25,11 @@ export default function Navbar() {
   return (
     <nav className="relative py-5 sm:py-0 px-3 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10 shadow-sm">
       <div className="relative flex items-center justify-between">
-        <div className="items-center">
+        <div className="items-center py-0.5">
           <h3 className="capitalize font-semibold">{currentPage}</h3>
         </div>
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
           {/* large screens */}
           <div className="hidden sm:flex items-center justify-between">
             {userData?.role === "Instructor" && (
@@ -97,11 +95,11 @@ export default function Navbar() {
             {profileOpen && (
               <div className="absolute right-0 top-[100%] w-48 origin-top-right bg-white py-3 shadow-lg border-1 border-gray-100 ring-opacity-5 z-50">
                 <Link
-                  to="#"
+                  to="my-profile"
                   className="w-full font-semibold flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
                 >
                   <RiProfileFill className="text-lg" />
-                  Profile
+                  My Profile
                 </Link>
                 <Link
                   onClick={() => {
@@ -109,7 +107,7 @@ export default function Navbar() {
                     navigate("/login");
                   }}
                   to="/login"
-                  className="w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
+                  className="w-full flex items-center gap-2 !px-4 !py-2 text-sm font-semibold hover:bg-[#c4d86da0]"
                 >
                   <RiLogoutBoxFill className="text-lg" />
                   Sign out
@@ -147,34 +145,38 @@ export default function Navbar() {
                 </div>
 
                 <div className="py-2">
-                  <Link
-                    to=""
-                    className="relative w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
-                  >
-                    <MdEmail className="text-xl cursor-pointer" />
-                    <span className="absolute top-[3px] left-7 grid min-h-[14px] min-w-[14px] place-items-center rounded-full bg-[#ffeddf] text-[10px] text-black font-bold">
-                      0
-                    </span>
-                    <p className="font-semibold">Mails</p>
-                  </Link>
+                  {userData?.role === "Student" && (
+                    <div>
+                      <Link
+                        to=""
+                        className="relative w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
+                      >
+                        <MdEmail className="text-xl cursor-pointer" />
+                        <span className="absolute top-[3px] left-7 grid min-h-[14px] min-w-[14px] place-items-center rounded-full bg-[#ffeddf] text-[10px] text-black font-bold">
+                          0
+                        </span>
+                        <p className="font-semibold">Mails</p>
+                      </Link>
+
+                      <Link
+                        to=""
+                        className="relative w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
+                      >
+                        <FaBell className="text-xl cursor-pointer" />
+                        <span className="absolute top-[3px] left-7 grid min-h-[14px] min-w-[14px] place-items-center rounded-full bg-[#ffeddf] text-[10px] text-black font-bold">
+                          0
+                        </span>
+                        <p className="font-semibold">Notifications</p>
+                      </Link>
+                    </div>
+                  )}
 
                   <Link
-                    to=""
-                    className="relative w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
-                  >
-                    <FaBell className="text-xl cursor-pointer" />
-                    <span className="absolute top-[3px] left-7 grid min-h-[14px] min-w-[14px] place-items-center rounded-full bg-[#ffeddf] text-[10px] text-black font-bold">
-                      0
-                    </span>
-                    <p className="font-semibold">Notifications</p>
-                  </Link>
-
-                  <Link
-                    to="#"
+                    to="my-profile"
                     className="w-full font-semibold flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
                   >
                     <RiProfileFill className="text-lg" />
-                    Profile
+                    My Profile
                   </Link>
 
                   <Link
@@ -183,7 +185,7 @@ export default function Navbar() {
                       navigate("/login");
                     }}
                     to="/login"
-                    className="w-full flex items-center gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
+                    className="w-full flex items-center font-semibold gap-2 !px-4 !py-2 text-sm hover:bg-[#c4d86da0]"
                   >
                     <RiLogoutBoxFill className="text-lg" />
                     Sign out

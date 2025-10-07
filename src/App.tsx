@@ -18,6 +18,7 @@ import ResultsList from "./Modules/Results/Components/ResultsList";
 import ResultDetails from "./Modules/Results/Components/ResultDetails";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoutes from "./Modules/Shared/Components/ProtectedRoute/ProtectedRoute";
+import UserProfile from "./Modules/UserProfile/Components/UserProfile";
 
 function App() {
   const routes = createBrowserRouter([
@@ -46,8 +47,10 @@ function App() {
         { path: "quizzes", element: <Quizzes /> },
         { path: "quiz-details", element: <QuizDetails /> },
         { path: "questions", element: <QuestionsList /> },
+        { path: "students-results", element: <ResultsList /> },
         { path: "my-results", element: <ResultsList /> },
         { path: "quiz-result-details", element: <ResultDetails /> },
+        { path: "my-profile", element: <UserProfile /> },
       ],
     },
   ]);
