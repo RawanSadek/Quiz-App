@@ -17,7 +17,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const currentPage = pathname.split("/").pop(); // Get the last part of the path
+  const currentPage = pathname.split("/").pop()?.replace('-',' '); // Get the last part of the path
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
