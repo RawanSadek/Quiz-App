@@ -38,3 +38,11 @@ button:disabled{
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.ps-menu-button{
+  height: 70px !important;
+}
+
+.ps-menu-button:hover{
+  border-right: 4px solid black !important;
+}

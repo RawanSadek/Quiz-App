@@ -5,11 +5,11 @@ import SideBar from "../SideBar/SideBar";
 export default function MasterLayout() {
   return (
     <div className="flex h-screen">
-      <div className="w-[20%] bg-green-400">
+      <div className="h-full">
         <SideBar />
       </div>
 
-      <div className="flex flex-col min-h-screen w-[80%]">
+      <div className="flex flex-col min-h-screen w-full">
         <div>
           <Navbar />
         </div>
