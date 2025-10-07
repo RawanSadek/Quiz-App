@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { RiHome6Line } from 'react-icons/ri';
-import { TbFileLike } from 'react-icons/tb';
+import { TbFileLike, TbMessageQuestion } from 'react-icons/tb';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from "../../../Redux/Store";
@@ -35,6 +35,7 @@ export default function SideBar() {
           <Menu className='mx-auto' >
             <MenuItem component={<Link to="/dashboard" />} className={`${currentPage?.includes('dashboard')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold`}> <RiHome6Line className={`${currentPage?.includes('dashboard')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Dashboard</MenuItem>
             {userData?.role=='Instructor' && <MenuItem component={<Link to="/dashboard/groups" />} className={`${currentPage?.includes('groups')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold`}> <HiOutlineUserGroup className={`${currentPage?.includes('groups')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Groups</MenuItem>}
+            {userData?.role=='Instructor' && <MenuItem component={<Link to="/dashboard/questions" />} className={`${currentPage?.includes('question')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold`}> <TbMessageQuestion className={`${currentPage?.includes('question')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Questions</MenuItem>}
             <MenuItem component={<Link to="/dashboard/quizzes" />} className={`${currentPage?.includes('quiz')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold`}> <GrDocumentTime className={`${currentPage?.includes('quiz')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Quizzes</MenuItem>
             <MenuItem component={<Link to={`${userData?.role=='Instructor'?'/dashboard/students-results':'/dashboard/my-results'}`} />} className={`${currentPage?.includes('result')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold`}> <TbFileLike className={`${currentPage?.includes('result')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Results</MenuItem>
             <MenuItem component={<Link to="#" />} className={`${currentPage?.includes('#')?'border-e-4 border-e-black':''} text-black border-b-2 border-gray-200 font-semibold mt-auto`}> <TfiHelpAlt className={`${currentPage?.includes('#')?'bg-black text-[#FFEDDF]':'bg-[#FFEDDF]'} rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`} />Help</MenuItem>
