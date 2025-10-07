@@ -77,16 +77,16 @@ export default function QuestionsList() {
           <tbody className="text-black">
             {questions?.map((question: QuestionTypes) => (
               <tr key={question._id} className="shadow rounded-lg border">
-                <td className="px-3 py-2 text-xs border border-gray-300 rounded-s-lg">
+                <td data-label="Question Title:" className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg">
                   {question.title}
                 </td>
-                <td className="px-3 py-2 text-xs border border-gray-300">
+                <td data-label="Question Desc:" className="table-data px-3 py-2 text-xs border border-gray-300">
                   {question.description}
                 </td>
-                <td className="px-3 py-2 text-xs border border-gray-300">
+                <td data-label="Difficulty Level:" className="table-data px-3 py-2 text-xs border border-gray-300">
                   {question.difficulty}
                 </td>
-                <td className="px-3 py-2 text-xs border border-gray-300">
+                <td data-label="Type:" className="table-data px-3 py-2 text-xs border border-gray-300">
                   {question.type}
                 </td>
                 <td className="px-3 py-2 border border-gray-300 rounded-e-lg flex justify-between items-center text-lg">
