@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import type { QuestionTypes } from "../../../SERVICES/INTERFACES";
 import { FaEye, FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/DeleteConfirmation";
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [targetId, setTargetId] = useState<string | null>(null);
 
   const getQuestions = async () => {
     try {
@@ -17,6 +20,21 @@ export default function QuestionsList() {
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (targetId == null) return;
+    try {
+      const response = await axiosInstance.delete(QUESTIONS_URLS.DELETE_QUESTION(targetId));
+      toast.success(response?.data?.message || "Question Deleted Successfully");
+      getQuestions();
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setTargetId(null);
     }
   };
 
@@ -77,16 +95,28 @@ export default function QuestionsList() {
           <tbody className="text-black">
             {questions?.map((question: QuestionTypes) => (
               <tr key={question._id} className="shadow rounded-lg border">
-                <td data-label="Question Title:" className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg">
+                <td
+                  data-label="Question Title:"
+                  className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg"
+                >
                   {question.title}
                 </td>
-                <td data-label="Question Desc:" className="table-data px-3 py-2 text-xs border border-gray-300">
+                <td
+                  data-label="Question Desc:"
+                  className="table-data px-3 py-2 text-xs border border-gray-300"
+                >
                   {question.description}
                 </td>
-                <td data-label="Difficulty Level:" className="table-data px-3 py-2 text-xs border border-gray-300">
+                <td
+                  data-label="Difficulty Level:"
+                  className="table-data px-3 py-2 text-xs border border-gray-300"
+                >
                   {question.difficulty}
                 </td>
-                <td data-label="Type:" className="table-data px-3 py-2 text-xs border border-gray-300">
+                <td
+                  data-label="Type:"
+                  className="table-data px-3 py-2 text-xs border border-gray-300"
+                >
                   {question.type}
                 </td>
                 <td className="px-3 py-2 border border-gray-300 rounded-e-lg flex justify-between items-center text-lg">
@@ -112,7 +142,13 @@ export default function QuestionsList() {
                     </div>
                   </div>
 
-                  <div className="relative group">
+                  <div
+                    onClick={() =>{
+                      setTargetId(question?._id ?? null); 
+                      setIsDeleteModalOpen(true)
+                    }}
+                    className="relative group"
+                  >
                     <RiDeleteBin6Line className="cursor-pointer text-xl text-[#C5D86D]" />
                     <div
                       className="absolute bottom-full mb-1 left-0 -translate-x-1/2
@@ -122,13 +158,19 @@ export default function QuestionsList() {
                       Delete
                     </div>
                   </div>
-
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <DeleteConfirmation
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleConfirmDelete}
+        entity="question"
+      />
     </div>
   );
 }
