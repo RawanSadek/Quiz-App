@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { RiHome6Line } from "react-icons/ri";
 import { TbFileLike, TbMessageQuestion } from "react-icons/tb";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/Store";
 import { IoMdMenu } from "react-icons/io";
@@ -11,7 +11,14 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { GrDocumentTime } from "react-icons/gr";
 import { TfiHelpAlt } from "react-icons/tfi";
 
-export default function SideBar() {
+export default function SideBar({
+  collapsed,
+  setCollapsed,
+}: {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}) {
+
   const userData = useSelector(
     (state: RootState) => state.userProfileData.value
   );
@@ -19,7 +26,7 @@ export default function SideBar() {
   const { pathname } = useLocation();
   const currentPage = pathname.split("/").pop(); // Get the last part of the path
 
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,7 +39,7 @@ export default function SideBar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <Sidebar collapsed={collapsed} className="h-full fixed " >
+    <Sidebar collapsed={collapsed} className="h-full " >
       <div className="h-full flex flex-col">
         {/* Header */}
         <div className="py-4 flex justify-evenly items-center border-b-2 border-gray-200">
