@@ -26,8 +26,6 @@ export default function SideBar({
   const { pathname } = useLocation();
   const currentPage = pathname.split("/").pop(); // Get the last part of the path
 
-  // const [collapsed, setCollapsed] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       setCollapsed(window.innerWidth < 795);
@@ -37,7 +35,8 @@ export default function SideBar({
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  });
+
   return (
     <Sidebar collapsed={collapsed} className="h-full " >
       <div className="h-full flex flex-col">

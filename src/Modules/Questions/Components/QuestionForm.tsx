@@ -43,7 +43,7 @@ const QuestionForm = forwardRef(( { id, mode }:FormDataProps, ref) => {
     if (id)
       getQuestionById(id);  
     
-  }, []);
+  });
 
   return (
     <div>
