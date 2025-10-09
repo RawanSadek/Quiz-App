@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { axiosInstance, QUESTIONS_URLS } from "../../../SERVICES/ENDPOINTS";
 import type { AxiosError } from "axios";
@@ -7,11 +7,17 @@ import type { QuestionTypes } from "../../../SERVICES/INTERFACES";
 import { FaEye, FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/DeleteConfirmation";
+import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
+import QuestionData from "./QuestionForm";
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [targetId, setTargetId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formTitle, setFormTitle] = useState("");
+  const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
+  const formRef = useRef<{ saveForm: () => void }>(null);
 
   const getQuestions = async () => {
     try {
@@ -26,7 +32,9 @@ export default function QuestionsList() {
   const handleConfirmDelete = async () => {
     if (targetId == null) return;
     try {
-      const response = await axiosInstance.delete(QUESTIONS_URLS.DELETE_QUESTION(targetId));
+      const response = await axiosInstance.delete(
+        QUESTIONS_URLS.DELETE_QUESTION(targetId)
+      );
       toast.success(response?.data?.message || "Question Deleted Successfully");
       getQuestions();
     } catch (err) {
@@ -36,6 +44,25 @@ export default function QuestionsList() {
       setIsDeleteModalOpen(false);
       setTargetId(null);
     }
+  };
+
+  const handleOpenQuestionForm = (
+    title: string,
+    mode: "add" | "edit" | "view"
+  ) => {
+    setFormMode(mode);
+    setFormTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseClick = () => {
+    setIsModalOpen(false);
+    setTargetId(null);
+  };
+
+  const handleSaveClick = () => {
+    formRef.current?.saveForm();
+    handleCloseClick();
   };
 
   useEffect(() => {
@@ -48,7 +75,8 @@ export default function QuestionsList() {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Bank Of Questions</h2>
         <div
-          /*onClick={open set up quiz pop up}*/ className="relative inline-flex px-4 py-1 justify-center items-center cursor-pointer text-md rounded-full border border-gray-400 me-4 hover:bg-gray-100"
+          onClick={() => handleOpenQuestionForm("Set up a new question", "add")}
+          className="relative inline-flex px-4 py-1 justify-center items-center cursor-pointer text-md rounded-full border border-gray-400 me-4 hover:bg-gray-100"
         >
           <MdOutlineAddCircle className="text-[26px] cursor-pointer me-1" />
           <p className="font-semibold">Add Question</p>
@@ -120,7 +148,13 @@ export default function QuestionsList() {
                   {question.type}
                 </td>
                 <td className="px-3 py-2 border border-gray-300 rounded-e-lg flex justify-between items-center text-lg">
-                  <div className="relative group">
+                  <div
+                    onClick={() => {
+                      setTargetId(question?._id ?? null);
+                      handleOpenQuestionForm("View question details", "view");
+                    }}
+                    className="relative group"
+                  >
                     <FaEye className="cursor-pointer text-xl text-[#C5D86D]" />
                     <div
                       className="absolute bottom-full mb-1 left-0 -translate-x-1/2
@@ -131,7 +165,13 @@ export default function QuestionsList() {
                     </div>
                   </div>
 
-                  <div className="relative group">
+                  <div
+                    onClick={() => {
+                      setTargetId(question?._id ?? null);
+                      handleOpenQuestionForm("Update question", "edit");
+                    }}
+                    className="relative group"
+                  >
                     <FaRegEdit className="cursor-pointer text-xl text-[#C5D86D]" />
                     <div
                       className="absolute bottom-full mb-1 left-0 -translate-x-1/2
@@ -143,9 +183,9 @@ export default function QuestionsList() {
                   </div>
 
                   <div
-                    onClick={() =>{
-                      setTargetId(question?._id ?? null); 
-                      setIsDeleteModalOpen(true)
+                    onClick={() => {
+                      setTargetId(question?._id ?? null);
+                      setIsDeleteModalOpen(true);
                     }}
                     className="relative group"
                   >
@@ -165,11 +205,22 @@ export default function QuestionsList() {
         </table>
       </div>
 
+      {/* Delete Confirmation  */}
       <DeleteConfirmation
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleConfirmDelete}
         entity="question"
+      />
+
+      {/* Form PopUp */}
+      <FormPopUp
+        isOpen={isModalOpen}
+        onClose={handleCloseClick}
+        onSave={handleSaveClick}
+        title={formTitle}
+        mode={formMode}
+        content={<QuestionData id={targetId?? null} mode={formMode} ref={formRef} />}
       />
     </div>
   );
