@@ -37,3 +37,8 @@ export const QUESTIONS_URLS = {
   UPDATE_QUESTION: (id:string)=> `${baseURL}/question/${id}`,
   DELETE_QUESTION: (id:string)=> `${baseURL}/question/${id}`,
 };
+// RESULTS_URL
+export const RESULTS_URLS = {
+  GET_ALL: `${baseURL}/quiz/result`,
+  GET_BY_ID: (id:string)=> `${baseURL}/quiz/result/${id}`,
+};

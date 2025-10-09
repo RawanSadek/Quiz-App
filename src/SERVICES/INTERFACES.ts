@@ -49,3 +49,15 @@ export interface QuestionTypes {
   points: number;
   type: string
 }
+export interface ResultTypes {
+  _id: string;
+  title: string;
+  description: string;
+  difficulty: "easy" | "medium" | "hard";
+  type: string;
+  closed_at: string; 
+  createdAt: string;
+  questions_number: number;
+  score_per_question: number;
+  participants?: any[]; 
+}
