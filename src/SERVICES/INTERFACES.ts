@@ -46,7 +46,7 @@ export interface QuestionTypes {
   };
   answer: "A" | "B" | "C" | "D";
   difficulty: "easy" | "medium" | "hard";
-  points: number;
+  points?: number;
   type: string
 }
 export interface ResultTypes {

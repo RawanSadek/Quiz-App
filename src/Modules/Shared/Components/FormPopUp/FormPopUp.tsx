@@ -33,28 +33,35 @@ export default function FormPopUp({
           role="dialog"
           aria-modal="true"
           aria-labelledby="title"
-          className="relative min-w-[50%] rounded-2xl bg-white ring-black/5 transition-all"
+          className="relative rounded-2xl bg-white ring-black/5 transition-all"
         >
-          <div className=" flex justify-between items-center border-b-2 border-gray-300 px-1">
-            <h2 className="text-xl font-bold p-4">{title}</h2>
+          <div className=" flex justify-between items-center border-b-2 border-gray-300 ">
+            <h2 className="text-md md:text-xl font-bold p-4 ms-4">{title}</h2>
             <div className="flex items-center">
               {mode !== "view" && (
                 <div
                   onClick={onSave}
-                  className="border-s-2 border-gray-300 p-4 hover:bg-gray-100 cursor-pointer"
+                  className="border-s-2 border-gray-300 p-4 hover:bg-gray-100 cursor-pointer relative group"
                 >
                   <button
-                    type="button"
+                    type="submit"
                     className="text-2xl focus:outline-none cursor-pointer"
                     aria-label="save"
                   >
                     <BsCheckLg size={30} />
                   </button>
+                  <div
+                    className="absolute bottom-full mb-1 ml-3 -translate-x-1/2
+                  hidden group-hover:block bg-black text-white text-sm
+                  px-3 py-1 rounded-md shadow-lg "
+                  >
+                    Save
+                  </div>
                 </div>
               )}
               <div
                 onClick={onClose}
-                className="border-s-2 border-gray-300 p-4 hover:bg-gray-100 cursor-pointer rounded-e-2xl"
+                className="border-s-2 border-gray-300 p-4 hover:bg-gray-100 cursor-pointer rounded-e-2xl rounded-br-none relative group"
               >
                 <button
                   type="button"
@@ -63,11 +70,18 @@ export default function FormPopUp({
                 >
                   <IoClose size={30} />
                 </button>
+                <div
+                  className="absolute bottom-full mb-1 ml-3 -translate-x-1/2
+                  hidden group-hover:block bg-black text-white text-sm
+                  px-3 py-1 rounded-md shadow-lg "
+                >
+                  Cancel
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="p-5">
+          <div className="px-8 py-5">
             {/* Form */}
             <div>{content}</div>
           </div>
