@@ -10,6 +10,7 @@ import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/Delet
 import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
 import QuestionData from "./QuestionForm";
 import dataLoading from "../../../assets/Images/loadingData.gif";
+import { TbZoomReset } from "react-icons/tb";
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState([]);
@@ -20,6 +21,9 @@ export default function QuestionsList() {
   const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
   const formRef = useRef<{ submitForm: () => void }>(null);
   const [loading, setLoading] = useState(false);
+  const [filteredQuestions, setFilteredQuestions] = useState(questions);
+  const [difficulty, setDifficulty] = useState<string | null>(null);
+  const [type, setType] = useState<string | null>(null);
 
   const getQuestions = async () => {
     setLoading(true);
@@ -32,6 +36,32 @@ export default function QuestionsList() {
     }
     setLoading(false);
   };
+
+  const filterQuestions = async () => {
+    console.log(difficulty)
+    console.log(type)
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post(QUESTIONS_URLS.SEARCH, {}, {
+        params: 
+        { 
+          difficulty, 
+          type 
+        },
+      }
+      );
+      console.log(response)
+      setFilteredQuestions(response?.data);
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    filterQuestions();
+  }, [difficulty, type]);
 
   const handleConfirmDelete = async () => {
     if (targetId == null) return;
@@ -65,9 +95,11 @@ export default function QuestionsList() {
   };
 
   const handleSaveClick = async () => {
-    await formRef.current?.submitForm();
-    handleCloseClick();
-    getQuestions();
+    const success = await formRef.current?.submitForm();
+    if (success) {
+      handleCloseClick();
+      getQuestions();
+    }
   };
 
   useEffect(() => {
@@ -88,8 +120,59 @@ export default function QuestionsList() {
         </div>
       </div>
 
+      {/* Search */}
+      <div className="flex flex-col lg:flex-row justify-between items-center my-5">
+
+        <div className="flex flex-col lg:flex-row justify-start items-center gap-3 w-full">
+          <select onChange={(e) => setType(e.target.value)}
+            value={type?type:''}
+            id="search type"
+            className="focus:outline-0 w-full lg:w-1/4 border border-gray-300 rounded-lg py-1 px-3 text-sm"
+          >
+            <option selected disabled hidden value="" className="text-gray-300">
+              Search by type
+            </option>
+            <option className="text-[#0D1321] font-medium" value="FE">
+              FE
+            </option>
+            <option className="text-[#0D1321] font-medium" value="BE">
+              BE
+            </option>
+            <option className="text-[#0D1321] font-medium" value="DO">
+              DO
+            </option>
+          </select>
+
+          <select onChange={(e) => setDifficulty(e.target.value)}
+          value={difficulty? difficulty: ''}
+            id="search difficulty"
+            className="focus:outline-0 w-full lg:w-1/4 border border-gray-300 rounded-lg py-1 px-3 text-sm"
+          >
+            <option selected disabled hidden value="" className="text-gray-300">
+              Search by difficulty
+            </option>
+            <option className="text-[#0D1321] font-medium" value="easy">
+              Easy
+            </option>
+            <option className="text-[#0D1321] font-medium" value="medium">
+              Medium
+            </option>
+            <option className="text-[#0D1321] font-medium" value="hard">
+              Hard
+            </option>
+          </select>
+        </div>
+          <div
+          onClick={() => {setDifficulty(null); setType(null);}}
+          className="relative inline-flex px-4 py-1 justify-center items-center cursor-pointer min-w-[170px] text-md rounded-full border border-gray-400 me-4 hover:bg-gray-100 mt-3 lg:mt-0"
+        >
+          <TbZoomReset className="text-[24px] cursor-pointer me-1" />
+          <p className="font-semibold">Reset search</p>
+        </div>
+      </div>
+
       {/* Table */}
-      <div className="relative overflow-x-auto mt-3 max-h-[90%] overflow-y-auto">
+      <div className="relative overflow-x-auto max-h-[67%] lg:max-h-[80%] overflow-y-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 border-separate border-spacing-y-2">
           <thead className="text-xs text-white capitalize bg-[#0D1321]">
             <tr>
@@ -119,7 +202,7 @@ export default function QuestionsList() {
               </th>
               <th
                 scope="col"
-                className="px-3 py-2 font-light border-s border-white rounded-e-lg"
+                className="px-3 py-2 font-light border-s border-white"
               >
                 points
               </th>
@@ -144,7 +227,7 @@ export default function QuestionsList() {
               </tr>
             )}
 
-            {!loading && questions.length === 0 && (
+            {!loading && filteredQuestions.length === 0 && (
               <tr>
                 <td colSpan={6} className="text-center pt-20 text-gray-400">
                   No questions found
@@ -153,23 +236,23 @@ export default function QuestionsList() {
             )}
 
             {!loading &&
-              questions?.map((question: QuestionTypes) => (
+              filteredQuestions?.map((question: QuestionTypes) => (
                 <tr key={question?._id} className="shadow rounded-lg border">
                   <td
                     data-label="Question Title:"
                     className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg overflow-hidden text-ellipsis whitespace-nowrap"
                   >
-                      {question?.title.length > 50
-                        ? question?.title.substring(0, 50) + "..."
-                        : question?.title}
+                    {question?.title.length > 50
+                      ? question?.title.substring(0, 50) + "..."
+                      : question?.title}
                   </td>
                   <td
                     data-label="Question Desc:"
                     className="table-data px-3 py-2 text-xs border border-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
                   >
-                      {question?.description.length > 50
-                        ? question?.description.substring(0, 50) + "..."
-                        : question?.description}
+                    {question?.description.length > 50
+                      ? question?.description.substring(0, 50) + "..."
+                      : question?.description}
                   </td>
                   <td
                     data-label="Difficulty Level:"

@@ -35,7 +35,7 @@ export default function SideBar({
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  });
+  },[setCollapsed]);
 
   return (
     <Sidebar collapsed={collapsed} className="h-full " >
