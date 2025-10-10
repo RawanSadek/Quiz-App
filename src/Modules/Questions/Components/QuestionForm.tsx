@@ -23,9 +23,11 @@ const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
     reset
   } = useForm<QuestionTypes>();
 
+
+
   const onSubmit = async(data:QuestionTypes) => {
     try {
-      if (mode === "add") {
+      if (mode == "add") {
       const response = await axiosInstance.post(QUESTIONS_URLS.CREATE_QUESTION,data);
       toast.success(response?.data?.message);
     } else if (mode === "edit" && id) {
@@ -39,14 +41,20 @@ const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    submitForm: handleSubmit(onSubmit),
-  }));
+  submitForm: async () => {
+    let success = false;
+    await handleSubmit(async (data) => {
+      await onSubmit(data);
+      success = true; // only if the validation passed
+    })();
+    return success;
+  },
+}));
 
   const getQuestionById = async (id: string) => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(QUESTIONS_URLS.GET_BY_ID(id));
-      // console.log(response?.data);
       setQuestionDetails(response?.data);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -57,7 +65,8 @@ const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
 
   useEffect(() => {
     if (id) getQuestionById(id);
-  },[]);
+  },[id]);
+
 
   useEffect(() => {
   if (id && questionDetails) {
@@ -110,7 +119,7 @@ const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
             {/* Description */}
             <div className="flex justify-start items-stretch gap-3 border border-gray-300 rounded-lg pe-1 mt-3">
               <label htmlFor="description" className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center">Description:</label>
-              <textarea disabled={mode==='view'} defaultValue={id?questionDetails?.description:''} {...register('description')}  id="description" className="w-full focus:outline-0"/>
+              <textarea disabled={mode==='view'} defaultValue={id?questionDetails?.description:''} {...register('description', REQUIRED_VALIDATION('Description'))}  id="description" className="w-full focus:outline-0"/>
             </div>
 
             {/* Options */}
@@ -202,7 +211,7 @@ const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
               <div className="w-1/2">
                 <div className="flex justify-start items-center gap-3 border border-gray-300 rounded-lg pe-3 mt-3">
                   <label htmlFor="points" className="bg-[#FFEDDF] rounded-lg py-1 px-4 font-semibold">Points:</label>
-                  <input disabled={mode==='view'} defaultValue={id?questionDetails?.points:0} {...register('points', REQUIRED_VALIDATION('Points'))}  type="number" id="points" className="w-full focus:outline-0 text-black"/>
+                  <input disabled={mode==='view'} defaultValue={id?questionDetails?.points:''} {...register('points', REQUIRED_VALIDATION('Points'))}  type="number" id="points" className="w-full focus:outline-0 text-black"/>
                 </div>
                 {errors.points && <p className='text-red-700'>{errors.points.message as string}</p>}
               </div>
