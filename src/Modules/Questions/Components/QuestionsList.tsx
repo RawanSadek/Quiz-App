@@ -9,6 +9,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/DeleteConfirmation";
 import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
 import QuestionData from "./QuestionForm";
+import dataLoading from "../../../assets/Images/loadingData.gif";
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState([]);
@@ -17,9 +18,11 @@ export default function QuestionsList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formTitle, setFormTitle] = useState("");
   const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
-  const formRef = useRef<{ saveForm: () => void }>(null);
+  const formRef = useRef<{ submitForm: () => void }>(null);
+  const [loading, setLoading] = useState(false);
 
   const getQuestions = async () => {
+    setLoading(true);
     try {
       const response = await axiosInstance(QUESTIONS_URLS.GET_ALL);
       setQuestions(response?.data);
@@ -27,6 +30,7 @@ export default function QuestionsList() {
       const error = err as AxiosError<{ message: string }>;
       toast.error(error.response?.data?.message || "Something went wrong");
     }
+    setLoading(false);
   };
 
   const handleConfirmDelete = async () => {
@@ -60,9 +64,10 @@ export default function QuestionsList() {
     setTargetId(null);
   };
 
-  const handleSaveClick = () => {
-    formRef.current?.saveForm();
+  const handleSaveClick = async () => {
+    await formRef.current?.submitForm();
     handleCloseClick();
+    getQuestions();
   };
 
   useEffect(() => {
@@ -116,91 +121,128 @@ export default function QuestionsList() {
                 scope="col"
                 className="px-3 py-2 font-light border-s border-white rounded-e-lg"
               >
+                points
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-2 font-light border-s border-white rounded-e-lg"
+              >
                 actions
               </th>
             </tr>
           </thead>
           <tbody className="text-black">
-            {questions?.map((question: QuestionTypes) => (
-              <tr key={question._id} className="shadow rounded-lg border">
-                <td
-                  data-label="Question Title:"
-                  className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg"
-                >
-                  {question.title}
-                </td>
-                <td
-                  data-label="Question Desc:"
-                  className="table-data px-3 py-2 text-xs border border-gray-300"
-                >
-                  {question.description}
-                </td>
-                <td
-                  data-label="Difficulty Level:"
-                  className="table-data px-3 py-2 text-xs border border-gray-300"
-                >
-                  {question.difficulty}
-                </td>
-                <td
-                  data-label="Type:"
-                  className="table-data px-3 py-2 text-xs border border-gray-300"
-                >
-                  {question.type}
-                </td>
-                <td className="px-3 py-2 border border-gray-300 rounded-e-lg flex justify-between items-center text-lg">
-                  <div
-                    onClick={() => {
-                      setTargetId(question?._id ?? null);
-                      handleOpenQuestionForm("View question details", "view");
-                    }}
-                    className="relative group"
-                  >
-                    <FaEye className="cursor-pointer text-xl text-[#C5D86D]" />
-                    <div
-                      className="absolute bottom-full mb-1 left-0 -translate-x-1/2
-                  hidden group-hover:block bg-black text-white text-sm
-                  px-3 py-1 rounded-md shadow-lg "
-                    >
-                      View
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      setTargetId(question?._id ?? null);
-                      handleOpenQuestionForm("Update question", "edit");
-                    }}
-                    className="relative group"
-                  >
-                    <FaRegEdit className="cursor-pointer text-xl text-[#C5D86D]" />
-                    <div
-                      className="absolute bottom-full mb-1 left-0 -translate-x-1/2
-                  hidden group-hover:block bg-black text-white text-sm
-                  px-3 py-1 rounded-md shadow-lg "
-                    >
-                      Edit
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      setTargetId(question?._id ?? null);
-                      setIsDeleteModalOpen(true);
-                    }}
-                    className="relative group"
-                  >
-                    <RiDeleteBin6Line className="cursor-pointer text-xl text-[#C5D86D]" />
-                    <div
-                      className="absolute bottom-full mb-1 left-0 -translate-x-1/2
-                  hidden group-hover:block bg-black text-white text-sm
-                  px-3 py-1 rounded-md shadow-lg "
-                    >
-                      Delete
-                    </div>
-                  </div>
+            {loading && (
+              <tr>
+                <td colSpan={6} className="">
+                  <img
+                    src={dataLoading}
+                    alt="loading"
+                    className="w-[17%]  !mx-auto"
+                  />
                 </td>
               </tr>
-            ))}
+            )}
+
+            {!loading && questions.length === 0 && (
+              <tr>
+                <td colSpan={6} className="text-center pt-20 text-gray-400">
+                  No questions found
+                </td>
+              </tr>
+            )}
+
+            {!loading &&
+              questions?.map((question: QuestionTypes) => (
+                <tr key={question?._id} className="shadow rounded-lg border">
+                  <td
+                    data-label="Question Title:"
+                    className="table-data px-3 py-2 text-xs border border-gray-300 rounded-s-lg overflow-hidden text-ellipsis whitespace-nowrap"
+                  >
+                      {question?.title.length > 50
+                        ? question?.title.substring(0, 50) + "..."
+                        : question?.title}
+                  </td>
+                  <td
+                    data-label="Question Desc:"
+                    className="table-data px-3 py-2 text-xs border border-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
+                  >
+                      {question?.description.length > 50
+                        ? question?.description.substring(0, 50) + "..."
+                        : question?.description}
+                  </td>
+                  <td
+                    data-label="Difficulty Level:"
+                    className="table-data px-3 py-2 text-xs border border-gray-300"
+                  >
+                    {question?.difficulty}
+                  </td>
+                  <td
+                    data-label="Type:"
+                    className="table-data px-3 py-2 text-xs border border-gray-300"
+                  >
+                    {question?.type}
+                  </td>
+                  <td
+                    data-label="Points:"
+                    className="table-data px-3 py-2 text-xs border border-gray-300"
+                  >
+                    {question?.points}
+                  </td>
+                  <td className="px-3 py-2 border border-gray-300 rounded-e-lg flex justify-between items-center text-lg">
+                    <div
+                      onClick={() => {
+                        setTargetId(question?._id ?? null);
+                        handleOpenQuestionForm("View question details", "view");
+                      }}
+                      className="relative group"
+                    >
+                      <FaEye className="cursor-pointer text-xl text-[#C5D86D]" />
+                      <div
+                        className="absolute bottom-full mb-1 left-0 -translate-x-1/2
+                  hidden group-hover:block bg-black text-white text-sm
+                  px-3 py-1 rounded-md shadow-lg "
+                      >
+                        View
+                      </div>
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        setTargetId(question?._id ?? null);
+                        handleOpenQuestionForm("Update question", "edit");
+                      }}
+                      className="relative group"
+                    >
+                      <FaRegEdit className="cursor-pointer text-xl text-[#C5D86D]" />
+                      <div
+                        className="absolute bottom-full mb-1 left-0 -translate-x-1/2
+                  hidden group-hover:block bg-black text-white text-sm
+                  px-3 py-1 rounded-md shadow-lg "
+                      >
+                        Edit
+                      </div>
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        setTargetId(question?._id ?? null);
+                        setIsDeleteModalOpen(true);
+                      }}
+                      className="relative group"
+                    >
+                      <RiDeleteBin6Line className="cursor-pointer text-xl text-[#C5D86D]" />
+                      <div
+                        className="absolute bottom-full mb-1 left-0 -translate-x-1/2
+                  hidden group-hover:block bg-black text-white text-sm
+                  px-3 py-1 rounded-md shadow-lg "
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -220,7 +262,9 @@ export default function QuestionsList() {
         onSave={handleSaveClick}
         title={formTitle}
         mode={formMode}
-        content={<QuestionData id={targetId?? null} mode={formMode} ref={formRef} />}
+        content={
+          <QuestionData id={targetId ?? null} mode={formMode} ref={formRef} />
+        }
       />
     </div>
   );
