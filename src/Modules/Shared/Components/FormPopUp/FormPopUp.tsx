@@ -33,7 +33,7 @@ export default function FormPopUp({
           role="dialog"
           aria-modal="true"
           aria-labelledby="title"
-          className="relative rounded-2xl bg-white ring-black/5 transition-all"
+          className="relative rounded-2xl bg-white ring-black/5 transition-all min-w-[40%]"
         >
           <div className=" flex justify-between items-center border-b-2 border-gray-300 ">
             <h2 className="text-md md:text-xl font-bold p-4 ms-4">{title}</h2>
