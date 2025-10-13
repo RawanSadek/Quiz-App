@@ -64,10 +64,10 @@ const QuizPopUp = forwardRef<
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Title */}
         <div>
-          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+          <div className="flex border items-stretch border-gray-300 rounded-lg overflow-hidden">
             <label
               htmlFor="title"
-              className="bg-orange-100 px-4 py-3 text-sm font-medium text-gray-700 border-r border-gray-300 min-w-[100px]"
+              className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
             >
               Title:
             </label>
@@ -92,7 +92,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="duration"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "120px" }}
               >
                 Duration (in minutes)
@@ -123,7 +123,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="questions_number"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "120px" }}
               >
                 No. of questions
@@ -157,7 +157,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="score_per_question"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "120px" }}
               >
                 Score per question
@@ -191,7 +191,7 @@ const QuizPopUp = forwardRef<
           <div className="flex items-stretch border border-gray-300 rounded-lg overflow-hidden">
             <label
               htmlFor="description"
-              className="bg-orange-100 px-4 py-3 text-sm font-medium text-gray-700 border-r border-gray-300 min-w-[100px] flex items-center"
+              className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
             >
               Description
             </label>
@@ -216,7 +216,7 @@ const QuizPopUp = forwardRef<
           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <label
               htmlFor="schadule"
-              className="bg-orange-100 px-4 py-3 text-sm font-medium text-gray-700 border-r border-gray-300 min-w-[100px]"
+              className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
             >
               Schedule
             </label>
@@ -242,7 +242,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="difficulty"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "100px" }}
               >
                 Difficulty level
@@ -273,7 +273,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="type"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "100px" }}
               >
                 Category type
@@ -299,7 +299,7 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="group"
-                className="bg-orange-100 px-2 py-3 text-xs font-medium text-gray-700 border-r border-gray-300 text-center"
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
                 style={{ minWidth: "100px" }}
               >
                 Group name
