@@ -7,7 +7,7 @@ import {
 
 import type { QuizTypes, StudentTypes } from "../../../SERVICES/INTERFACES";
 import { formatDate } from "../../../SERVICES/FORMATDATE";
-import dataLoading from "../../../assets/Images/dataLoading.gif";
+import dataLoading from "../../../assets/Images/loadingData.gif";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/Store";
 import upcommingQuiz2 from "../../../assets/Images/upcommingQuiz2.png";
@@ -77,7 +77,7 @@ export default function Dashboard() {
           <div className="overflow-y-auto max-h-[550px]">
             {loadingQuizzes && (
               <div className="flex justify-center items-center py-20">
-                <img src={dataLoading} alt="loading" className="w-16 h-16" />
+                <img src={dataLoading} alt="loading" className="w-[30%]" />
               </div>
             )}
 
@@ -155,7 +155,7 @@ export default function Dashboard() {
             <div className="overflow-y-auto max-h-[550px]">
               {loadingStudents && (
                 <div className="flex justify-center items-center py-20">
-                  <img src={dataLoading} alt="loading" className="w-16 h-16" />
+                  <img src={dataLoading} alt="loading" className="w-[30%]" />
                 </div>
               )}
 

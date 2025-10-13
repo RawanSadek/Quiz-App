@@ -92,7 +92,9 @@ export default function GroupsList() {
         </div>
 
         {loading && (
-          <img src={dataLoading} alt="loading" className="w-[17%]  !mx-auto" />
+          <div className="flex justify-center items-center py-20">
+          <img src={dataLoading} alt="loading" className="w-[15%]  !mx-auto" />
+          </div>
         )}
 
         {!loading && groups.length === 0 && (

@@ -11,7 +11,7 @@ import { FiEdit2 } from "react-icons/fi";
 import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/DeleteConfirmation";
 import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
 import StudentsPopUp from "./StudentsPopUp";
-import dataLoading from "../../../assets/Images/dataLoading.gif";
+import dataLoading from "../../../assets/Images/loadingData.gif";
 import { MdOutlineAddCircle } from "react-icons/md";
 
 export default function StudentsList() {
@@ -192,14 +192,14 @@ export default function StudentsList() {
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="flex justify-between items-center p-6 border-b border-gray-100">
+      <div className="flex justify-between items-center p-4 border-b border-gray-100">
         <h2 className="text-xl font-semibold text-gray-900">Students list</h2>
         <button
           onClick={() => handleOpenStudentForm("Add New Student", "add")}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors"
+          className="flex items-center gap-2 px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition-colors cursor-pointer"
         >
-          <MdOutlineAddCircle className="text-lg" />
-          <span className="text-sm font-medium">Add Student</span>
+          <MdOutlineAddCircle className="text-[26px] cursor-pointer me-1" />
+          <span className="font-semibold">Add Student</span>
         </button>
       </div>
 
@@ -226,7 +226,7 @@ export default function StudentsList() {
       <div className="p-6">
         {loading && (
           <div className="flex justify-center items-center py-20">
-            <img src={dataLoading} alt="loading" className="w-16 h-16" />
+             <img src={dataLoading} alt="loading" className="w-[15%]" />
           </div>
         )}
 

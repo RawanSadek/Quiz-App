@@ -59,6 +59,7 @@ export interface ResultTypes {
   createdAt: string;
   questions_number: number;
   score_per_question: number;
+  closed_at: string
 }
 
 export interface QuizTypes {

@@ -57,7 +57,7 @@ const StudentsPopUp = forwardRef<
           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <label
               htmlFor="name"
-              className="bg-orange-100 px-4 py-3 text-sm font-medium text-gray-700 border-r border-gray-300 min-w-[80px]"
+              className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
             >
               Name
             </label>
@@ -80,7 +80,7 @@ const StudentsPopUp = forwardRef<
           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <label
               htmlFor="phone"
-              className="bg-orange-100 px-4 py-3 text-sm font-medium text-gray-700 border-r border-gray-300 min-w-[80px]"
+              className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
             >
               Phone
             </label>

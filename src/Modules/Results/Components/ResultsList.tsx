@@ -4,16 +4,16 @@ import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import type { ResultTypes } from "../../../SERVICES/INTERFACES";
 import { FaEye } from "react-icons/fa";
-import dataLoading from "../../../assets/Images/dataLoading.gif";
+import dataLoading from "../../../assets/Images/loadingData.gif";
 import { formatDate } from "../../../SERVICES/FORMATDATE";
 import { useNavigate } from "react-router-dom";
 
 export default function ResultsList() {
   const [results, setResult] = useState<
-    { quiz: ResultTypes; participants: any[] }[]
+    { quiz: ResultTypes; participants: number }[]
   >([]);
   const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -135,7 +135,7 @@ export default function ResultsList() {
                     <img
                       src={dataLoading}
                       alt="loading"
-                      className="w-20 h-20 !mt-3 !mx-auto"
+                      className="w-[15%]] !mt-3 !mx-auto"
                     />
                   </td>
                 </tr>
