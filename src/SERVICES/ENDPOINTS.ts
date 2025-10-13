@@ -56,7 +56,8 @@ export const RESULTS_URLS = {
 // QUIZZES_URLS
 export const QUIZZES_URLS = {
   GET_ALL: `${baseURL}/quiz`,
-  GET_UPCOMING: `${baseURL}/quiz/upcoming`,
+  GET_UPCOMING: `${baseURL}/quiz/incomming`,
+  GET_COMPLETED: `${baseURL}/quiz/completed`,
   GET_BY_ID: (id: string) => `${baseURL}/quiz/${id}`,
   CREATE_QUIZ: `${baseURL}/quiz`,
   UPDATE_QUIZ: (id: string) => `${baseURL}/quiz/${id}`,

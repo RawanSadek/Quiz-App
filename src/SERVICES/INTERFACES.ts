@@ -76,6 +76,7 @@ export interface QuizTypes {
   difficulty: "easy" | "medium" | "hard";
   createdAt: string;
   updatedAt: string;
+  participants: number; 
 }
 
 export interface StudentTypes {
