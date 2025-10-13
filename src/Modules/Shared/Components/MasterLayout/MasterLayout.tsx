@@ -9,12 +9,12 @@ export default function MasterLayout() {
   return (
     <div className="flex h-screen">
       <div
-        className={`fixed h-full transition-all duration-300 ${collapsed ? "w-20" : "w-64"}`}>
+        className={`fixed h-full transition-all duration-300 ${collapsed ? "w-20" : "w-[250px]"}`}>
         <SideBar collapsed={collapsed} setCollapsed={setCollapsed} />
       </div>
 
       <div
-        className={`flex flex-col min-h-screen w-full transition-all duration-300 ${collapsed ? "ml-20" : "ml-64"}`}>
+        className={`flex flex-col min-h-screen w-full transition-all duration-300 ${collapsed ? "ml-20" : "ml-[250px]"}`}>
         <Navbar />
         <div className="flex-grow p-7 overflow-y-auto">
           <Outlet />
