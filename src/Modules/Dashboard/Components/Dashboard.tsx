@@ -10,7 +10,7 @@ import { formatDate } from "../../../SERVICES/FORMATDATE";
 import dataLoading from "../../../assets/Images/dataLoading.gif";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/Store";
-import img2 from "../../../assets/Images/img (2).png";
+import upcommingQuiz2 from "../../../assets/Images/upcommingQuiz2.png";
 import user1 from "../../../assets/Images/user img (2).png";
 import user2 from "../../../assets/Images/user img (3).png";
 import user3 from "../../../assets/Images/user img (4).png";
@@ -95,7 +95,7 @@ export default function Dashboard() {
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <img src={img2} alt="" />
+                      <img src={upcommingQuiz2} alt="" />
                     </div>
 
                     <div className="flex-1 min-w-0">

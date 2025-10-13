@@ -72,7 +72,7 @@ export default function SideBar({
             <MenuItem
               component={<Link to="/dashboard/students" />}
               className={`${
-                currentPage?.includes("students")
+                currentPage?.includes("students") && !currentPage?.includes("students-results")
                   ? "border-e-4 border-e-black"
                   : ""
               } text-black border-b-2 border-gray-200 font-semibold`}
@@ -80,7 +80,7 @@ export default function SideBar({
               {" "}
               <HiOutlineUserGroup
                 className={`${
-                  currentPage?.includes("students")
+                  currentPage?.includes("students") && !currentPage?.includes("students-results")
                     ? "bg-black text-[#FFEDDF]"
                     : "bg-[#FFEDDF]"
                 } rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`}

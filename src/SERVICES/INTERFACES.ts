@@ -76,6 +76,7 @@ export interface QuizTypes {
   difficulty: "easy" | "medium" | "hard";
   createdAt: string;
   updatedAt: string;
+  participants: number; 
 }
 
 export interface StudentTypes {
@@ -96,8 +97,7 @@ export interface AddStudentFormData {
   name: string;
   phone: string;
 }
-  participants?: any[]; 
-}
+
 
 export interface FormDataProps {
   id?: string | null;
