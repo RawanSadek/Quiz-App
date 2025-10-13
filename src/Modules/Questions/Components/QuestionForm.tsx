@@ -2,15 +2,11 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { axiosInstance, QUESTIONS_URLS } from "../../../SERVICES/ENDPOINTS";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import type { QuestionTypes } from "../../../SERVICES/INTERFACES";
+import type { FormDataProps, QuestionTypes } from "../../../SERVICES/INTERFACES";
 import { useForm } from "react-hook-form";
 import { REQUIRED_VALIDATION } from "../../../SERVICES/VALIDATIONS";
 import dataLoading from "../../../assets/Images/loadingData.gif";
 
-interface FormDataProps {
-  id?: string | null;
-  mode: "add" | "edit" | "view";
-}
 
 const QuestionForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
   const [questionDetails, setQuestionDetails] = useState<QuestionTypes>();

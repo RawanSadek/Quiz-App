@@ -28,7 +28,7 @@ export const AUTH_URLS = {
   CHANGE_PASSWORD: `${authBaseURL}/change-password`,
 };
 
-// QUESTIONS_URLS
+// QUESTIONS URLS
 export const QUESTIONS_URLS = {
   GET_ALL: `${baseURL}/question`,
   CREATE_QUESTION: `${baseURL}/question`,
@@ -37,6 +37,16 @@ export const QUESTIONS_URLS = {
   UPDATE_QUESTION: (id: string) => `${baseURL}/question/${id}`,
   DELETE_QUESTION: (id: string) => `${baseURL}/question/${id}`,
 };
+
+// GROUPS URLS
+export const GROUPS_URLS = {
+  GET_ALL: `${baseURL}/group`,
+  CREATE_GROUP: `${baseURL}/group`,
+  GET_BY_ID: (id:string)=> `${baseURL}/group/${id}`,
+  UPDATE_GROUP: (id:string)=> `${baseURL}/group/${id}`,
+  DELETE_GROUP: (id:string)=> `${baseURL}/group/${id}`,
+};
+
 // RESULTS_URL
 export const RESULTS_URLS = {
   GET_ALL: `${baseURL}/quiz/result`,

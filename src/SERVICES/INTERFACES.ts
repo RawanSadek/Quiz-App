@@ -49,6 +49,7 @@ export interface QuestionTypes {
   points?: number;
   type: string;
 }
+
 export interface ResultTypes {
   _id: string;
   title: string;
@@ -95,3 +96,31 @@ export interface AddStudentFormData {
   name: string;
   phone: string;
 }
+  participants?: any[]; 
+}
+
+export interface FormDataProps {
+  id?: string | null;
+  mode: "add" | "edit" | "view";
+}
+
+export interface GroupTypes {
+  _id?: string;
+  name: string;
+  instructor: string
+  status: 'active' | 'inactive';
+  students: [StudentTypes]
+  max_students: number;
+}
+
+export interface StudentTypes {
+  _id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: 'Student';
+  avg_score: number;
+  group: GroupTypes;
+  status: 'active' | 'inactive';
+}
+
