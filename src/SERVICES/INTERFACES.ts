@@ -11,9 +11,9 @@ export interface UserDataTypes {
   first_name: string;
   last_name: string;
   role: "Instructor" | "Student";
-  _id:string;
-  status:string;
-  profilePicture?:string;
+  _id: string;
+  status: string;
+  profilePicture?: string;
 }
 
 export interface ResetPasswordTypes {
@@ -38,16 +38,16 @@ export interface QuestionTypes {
   title: string;
   description: string;
   options: {
-    "A": string;
-    "B": string;
-    "C": string;
-    "D": string;
+    A: string;
+    B: string;
+    C: string;
+    D: string;
     _id: string;
   };
   answer: "A" | "B" | "C" | "D";
   difficulty: "easy" | "medium" | "hard";
   points?: number;
-  type: string
+  type: string;
 }
 export interface ResultTypes {
   _id: string;
@@ -55,9 +55,43 @@ export interface ResultTypes {
   description: string;
   difficulty: "easy" | "medium" | "hard";
   type: string;
-  closed_at: string; 
   createdAt: string;
   questions_number: number;
   score_per_question: number;
-  participants?: any[]; 
+}
+
+export interface QuizTypes {
+  _id: string;
+  title: string;
+  description: string;
+  status: "draft" | "published";
+  instructor: string;
+  group: string;
+  questions_number: number;
+  schadule: string;
+  duration: number;
+  score_per_question: number;
+  type: string;
+  difficulty: "easy" | "medium" | "hard";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StudentTypes {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  status: string;
+  role: "Student";
+  createdAt: string;
+  updatedAt: string;
+  avg_score?: number;
+  rank?: number;
+}
+
+export interface AddStudentFormData {
+  name: string;
+  phone: string;
 }
