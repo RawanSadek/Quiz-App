@@ -4,9 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import upcommingQuiz1 from "../../../assets/Images/upcommingQuiz1.png";
 import upcommingQuiz2 from "../../../assets/Images/upcommingQuiz2.png";
 import dataLoading from "../../../assets/Images/loadingData.gif";
-import type { AxiosError } from "axios";
-import { toast } from "react-toastify";
-import { axiosInstance, QUIZZES_URLS } from "../../../SERVICES/ENDPOINTS";
 import { useEffect, useState } from "react";
 import type { QuizTypes } from "../../../SERVICES/INTERFACES";
 import { formatDate } from "../../../SERVICES/FORMATDATE";
@@ -18,7 +15,7 @@ import { toast } from "react-toastify";
 import type { QuizFormData } from "../../../SERVICES/INTERFACES";
 import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
 import QuizPopUp from "./QuizPopUp";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 export default function Quizzes() {
   const [upcomingQuizzes, setUpcomingQuizzes] = useState<QuizTypes[]>([]);
@@ -112,7 +109,7 @@ export default function Quizzes() {
     <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-12">
       <div className="flex flex-col sm:flex-row gap-5 justify-between items-center">
         {/* Set up new quiz */}
-        <div className="flex flex-col justify-center items-center border border-gray-300 rounded-lg p-5 cursor-pointer hover:shadow-lg hover:scale-110 transition-all duration-400 min-w-[190px]">
+        <div onClick={()=>handleOpenQuizForm('Set up a new quiz','add')} className="flex flex-col justify-center items-center border border-gray-300 rounded-lg p-5 cursor-pointer hover:shadow-lg hover:scale-110 transition-all duration-400 min-w-[190px]">
           <BiSolidAlarmAdd className="text-[55px] mx-auto" />
           <h3 className="text-lg font-semibold">Set up a new quiz</h3>
         </div>
