@@ -173,16 +173,13 @@ export default function Dashboard() {
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold ${
-                          index % 4 === 0
-                            ? "bg-blue-500"
-                            : index % 4 === 1
-                            ? "bg-purple-500"
-                            : index % 4 === 2
-                            ? "bg-green-500"
-                            : "bg-orange-500"
-                        }`}
+                        className={`w-15 h-15 flex items-center justify-center flex-shrink-0 text-white font-semibold `}
                       >
+                        <img
+                          src={userImgs[index % userImgs.length]}
+                          alt="User"
+                          className="w-full h-full object-cover"
+                        />
                         <span className="text-sm">
                           {student.first_name?.charAt(0)}
                           {student.last_name?.charAt(0)}
