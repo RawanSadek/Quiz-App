@@ -85,12 +85,13 @@ export interface StudentTypes {
   last_name: string;
   email: string;
   phone?: string;
-  status: string;
+  status: "active" | "inactive";
   role: "Student";
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   avg_score?: number;
   rank?: number;
+  group?: GroupTypes;
 }
 
 export interface AddStudentFormData {
@@ -98,6 +99,17 @@ export interface AddStudentFormData {
   phone: string;
 }
 
+export interface QuizFormData {
+  title: string;
+  duration: number;
+  questions_number: number;
+  score_per_question: number;
+  description: string;
+  schadule: string;
+  difficulty: "easy" | "medium" | "hard";
+  type: string;
+  group: string;
+}
 
 export interface FormDataProps {
   id?: string | null;
@@ -107,20 +119,8 @@ export interface FormDataProps {
 export interface GroupTypes {
   _id?: string;
   name: string;
-  instructor: string
-  status: 'active' | 'inactive';
-  students: [StudentTypes]
+  instructor: string;
+  status: "active" | "inactive";
+  students: [StudentTypes];
   max_students: number;
 }
-
-export interface StudentTypes {
-  _id?: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  role: 'Student';
-  avg_score: number;
-  group: GroupTypes;
-  status: 'active' | 'inactive';
-}
-
