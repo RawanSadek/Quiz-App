@@ -1,6 +1,6 @@
 import { FaBell, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BsList } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiLogoutBoxFill, RiProfileFill } from "react-icons/ri";
@@ -9,6 +9,16 @@ import type { RootState } from "../../../Redux/Store";
 import { logout } from "../../../Redux/UserDataSlice";
 import { BiSolidAlarmAdd } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
+import {
+  axiosInstance,
+  QUIZZES_URLS,
+  GROUPS_URLS,
+} from "../../../../SERVICES/ENDPOINTS";
+import type { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import type { QuizFormData, GroupTypes } from "../../../../SERVICES/INTERFACES";
+import FormPopUp from "../FormPopUp/FormPopUp";
+import QuizPopUp from "../../../Quizzes/Components/QuizPopUp";
 
 export default function Navbar() {
   const userData = useSelector(
@@ -17,10 +27,117 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const currentPage = pathname.split("/").pop()?.replace('-',' '); // Get the last part of the path
+  const currentPage = pathname.split("/").pop()?.replace("-", " "); // Get the last part of the path
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  const [formTitle, setFormTitle] = useState("");
+  const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
+  const [availableGroups, setAvailableGroups] = useState<GroupTypes[]>([]);
+  const formRef = useRef<{ submitForm: () => Promise<boolean> }>(null);
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axiosInstance.get(GROUPS_URLS.GET_ALL);
+      setAvailableGroups(response.data || []);
+    } catch (error) {
+      console.error("Failed to fetch groups:", error);
+      setAvailableGroups([]);
+    }
+  };
+
+  const handleOpenQuizForm = async (
+    title: string,
+    mode: "add" | "edit" | "view"
+  ) => {
+    setFormMode(mode);
+    setFormTitle(title);
+    await fetchGroups(); // Fetch groups before opening modal
+    setIsQuizModalOpen(true);
+  };
+
+  const handleCloseQuizModal = () => {
+    setIsQuizModalOpen(false);
+  };
+
+  const handleSaveQuiz = async () => {
+    const success = await formRef.current?.submitForm();
+    if (success) {
+      handleCloseQuizModal();
+    }
+  };
+
+  const handleSaveQuizData = async (data: QuizFormData) => {
+    try {
+      console.log("Form data received:", data);
+
+      // Use the first available group ID, or fallback to form data
+      const groupId =
+        availableGroups.length > 0 && availableGroups[0]._id
+          ? availableGroups[0]._id
+          : data.group;
+
+      console.log("Available groups:", availableGroups);
+      console.log("Selected group ID:", groupId);
+
+      // Ensure reasonable values to avoid "not enough questions" error
+      const questionsNumber = Math.min(data.questions_number || 5, 10); // Max 10 questions
+
+      const quizData = {
+        title: data.title,
+        description: data.description,
+        duration: data.duration,
+        questions_number: questionsNumber,
+        schadule: data.schadule,
+        score_per_question: data.score_per_question,
+        difficulty: data.difficulty,
+        type: data.type,
+        group: groupId,
+        status: "open" as const,
+      };
+
+      console.log("Adjusted questions number:", questionsNumber);
+
+      console.log("Sending quiz data to API:", quizData);
+      console.log("API URL:", QUIZZES_URLS.CREATE_QUIZ);
+      console.log(
+        `Creating quiz with ${questionsNumber} questions, difficulty: ${data.difficulty}, type: ${data.type}`
+      );
+
+      const response = await axiosInstance.post(
+        QUIZZES_URLS.CREATE_QUIZ,
+        quizData
+      );
+
+      console.log("API Response:", response.data);
+      toast.success(response?.data?.message || "Quiz created successfully");
+      return true;
+    } catch (error) {
+      const err = error as AxiosError<{ message: string | string[] }>;
+      console.error("API Error:", err.response?.data || err.message);
+
+      let errorMessage = "Something went wrong!";
+
+      if (err?.response?.data?.message) {
+        const message = err.response.data.message;
+        if (Array.isArray(message)) {
+          errorMessage = message.join(", ");
+        } else {
+          errorMessage = message;
+        }
+
+        // Provide specific guidance for common errors
+        if (errorMessage.includes("Not enough questions")) {
+          errorMessage +=
+            ". Try reducing the number of questions or selecting a different difficulty/category combination.";
+        }
+      }
+
+      toast.error(errorMessage);
+      return false;
+    }
+  };
 
   return (
     <nav className="relative py-5 sm:py-0 px-3 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10 shadow-sm">
@@ -34,7 +151,8 @@ export default function Navbar() {
           <div className="hidden sm:flex items-center justify-between">
             {userData?.role === "Instructor" && (
               <div
-                /*onClick={open set up quiz pop up}*/ className="relative inline-flex px-4 py-1 justify-center items-center cursor-pointer text-md rounded-full border border-gray-400 me-4 hover:bg-gray-100"
+                onClick={() => handleOpenQuizForm("Set up quiz", "add")}
+                className="relative inline-flex px-4 py-1 justify-center items-center cursor-pointer text-md rounded-full border border-gray-400 me-4 hover:bg-gray-100"
               >
                 <BiSolidAlarmAdd className="text-[26px] cursor-pointer me-1" />
                 <p className="font-semibold">New Quiz</p>
@@ -196,6 +314,22 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Quiz Modal */}
+      <FormPopUp
+        isOpen={isQuizModalOpen}
+        onClose={handleCloseQuizModal}
+        onSave={handleSaveQuiz}
+        title={formTitle}
+        mode={formMode}
+        content={
+          <QuizPopUp
+            ref={formRef}
+            onSave={handleSaveQuizData}
+            mode={formMode}
+          />
+        }
+      />
     </nav>
   );
 }

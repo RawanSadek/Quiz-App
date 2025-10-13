@@ -98,6 +98,18 @@ export interface AddStudentFormData {
   phone: string;
 }
 
+export interface QuizFormData {
+  title: string;
+  duration: number;
+  questions_number: number;
+  score_per_question: number;
+  description: string;
+  schadule: string;
+  difficulty: "easy" | "medium" | "hard";
+  type: string;
+  group: string;
+}
+
 export interface FormDataProps {
   id?: string | null;
   mode: "add" | "edit" | "view";
