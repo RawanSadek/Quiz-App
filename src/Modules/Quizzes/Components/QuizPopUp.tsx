@@ -1,12 +1,12 @@
 import { forwardRef, useImperativeHandle, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { REQUIRED_VALIDATION } from "../../../SERVICES/VALIDATIONS";
-import type { QuizFormData } from "../../../SERVICES/INTERFACES";
+import type { QuizFormData, QuizTypes } from "../../../SERVICES/INTERFACES";
 
 interface QuizPopUpProps {
   onSave?: (data: QuizFormData) => Promise<boolean>;
   mode: "add" | "edit" | "view";
-  quizData?: QuizFormData;
+  quizData?: QuizTypes;
 }
 
 const QuizPopUp = forwardRef<
@@ -34,10 +34,16 @@ const QuizPopUp = forwardRef<
 
   // Reset form when quizData changes (for edit mode)
   useEffect(() => {
-    if (quizData) {
-      reset(quizData);
-    }
-  }, [quizData, reset]);
+  if (quizData) {
+    reset({
+      schadule: quizData.schadule
+        ? new Date(quizData.schadule).toISOString().slice(0, 16)
+        : '',
+      score_per_question: quizData.score_per_question,
+      // ... other fields
+    });
+  }
+}, [quizData, reset]);
 
   const onSubmit = async (data: QuizFormData) => {
     if (onSave) {
@@ -78,6 +84,7 @@ const QuizPopUp = forwardRef<
               id="title"
               className="flex-1 px-4 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
               placeholder="Enter quiz title"
+              defaultValue={quizData ? quizData.title : ""}
             />
           </div>
           {errors.title && (
@@ -102,7 +109,9 @@ const QuizPopUp = forwardRef<
                 disabled={mode === "view"}
                 id="duration"
                 className="flex-1 px-3 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
+                defaultValue={quizData ? quizData.duration : ""}
               >
+                <option selected disabled hidden value=""></option>
                 <option value={10}>10</option>
                 <option value={15}>15</option>
                 <option value={20}>20</option>
@@ -136,7 +145,9 @@ const QuizPopUp = forwardRef<
                 disabled={mode === "view"}
                 id="questions_number"
                 className="flex-1 px-3 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
+                defaultValue={quizData ? quizData.questions_number : ""}
               >
+                <option selected disabled hidden value=""></option>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={15}>15</option>
@@ -170,7 +181,9 @@ const QuizPopUp = forwardRef<
                 disabled={mode === "view"}
                 id="score_per_question"
                 className="flex-1 px-3 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
+                defaultValue={quizData ? quizData.score_per_question : ""}
               >
+                <option selected disabled hidden value=""></option>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
@@ -202,6 +215,7 @@ const QuizPopUp = forwardRef<
               rows={3}
               className="flex-1 px-4 py-3 focus:outline-none disabled:bg-gray-100 text-sm resize-none"
               placeholder="Enter quiz description"
+              defaultValue={quizData ? quizData.description : ""}
             />
           </div>
           {errors.description && (
@@ -226,6 +240,11 @@ const QuizPopUp = forwardRef<
               type="datetime-local"
               id="schadule"
               className="flex-1 px-4 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
+              defaultValue={
+                quizData?.schadule
+                  ? new Date(quizData.schadule).toISOString().slice(0, 16)
+                  : ""
+              }
             />
           </div>
           {errors.schadule && (
@@ -255,7 +274,9 @@ const QuizPopUp = forwardRef<
                 disabled={mode === "view"}
                 id="difficulty"
                 className="flex-1 px-3 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
+                defaultValue={quizData? quizData.difficulty:''}
               >
+                <option selected disabled hidden value=''></option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
@@ -299,22 +320,19 @@ const QuizPopUp = forwardRef<
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <label
                 htmlFor="group"
-                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center"
-                style={{ minWidth: "100px" }}
+                className="bg-[#FFEDDF] rounded-lg py-3 px-4 font-semibold flex items-center w-fit whitespace-nowrap"
               >
                 Group name
               </label>
-              <select
-                {...register("group", REQUIRED_VALIDATION("Group name"))}
-                disabled={mode === "view"}
-                id="group"
-                className="flex-1 px-3 py-3 focus:outline-none disabled:bg-gray-100 text-sm"
-              >
-                <option value="JSB">JSB</option>
-                <option value="Group A">Group A</option>
-                <option value="Group B">Group B</option>
-                <option value="Group C">Group C</option>
-              </select>
+              <input
+              {...register("group", REQUIRED_VALIDATION("Group id"))}
+              disabled={mode === "view"}
+              type="text"
+              id="group"
+              className="flex-1 px-4 py-3 focus:outline-none disabled:bg-gray-100 text-xs"
+              placeholder="Enter group id"
+              defaultValue={quizData ? quizData.group : ""}
+            />
             </div>
             {errors.group && (
               <p className="text-red-500 text-sm mt-1">

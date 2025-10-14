@@ -5,14 +5,13 @@ import upcommingQuiz1 from "../../../assets/Images/upcommingQuiz1.png";
 import upcommingQuiz2 from "../../../assets/Images/upcommingQuiz2.png";
 import dataLoading from "../../../assets/Images/loadingData.gif";
 import { useEffect, useState } from "react";
-import type { QuizTypes } from "../../../SERVICES/INTERFACES";
 import { formatDate } from "../../../SERVICES/FORMATDATE";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { axiosInstance, QUIZZES_URLS } from "../../../SERVICES/ENDPOINTS";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import type { QuizFormData } from "../../../SERVICES/INTERFACES";
+import type { QuizFormData, QuizTypes } from "../../../SERVICES/INTERFACES";
 import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
 import QuizPopUp from "./QuizPopUp";
 import { useRef } from "react";
@@ -26,6 +25,9 @@ export default function Quizzes() {
   const [formTitle, setFormTitle] = useState("");
   const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
   const formRef = useRef<{ submitForm: () => Promise<boolean> }>(null);
+  // const [groups, setGroups] = useState([]);
+  // const [groupDetails, setGroupDetails] = useState<GroupTypes>();
+  // const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -52,6 +54,31 @@ export default function Quizzes() {
     }
     setLoadingCompletedQuizzes(false);
   };
+
+  // const getGroups = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axiosInstance(GROUPS_URLS.GET_ALL);
+  //       setGroups(response?.data);
+  //     } catch (err) {
+  //       const error = err as AxiosError<{ message: string }>;
+  //       toast.error(error.response?.data?.message || "Something went wrong");
+  //     }
+  //     setLoading(false);
+  //   };
+
+    // const getGroupById = async (id:string) => {
+    //   setLoading(true);
+    //   try {
+    //     const response = await axiosInstance(GROUPS_URLS.GET_BY_ID(id));
+    //     setGroupDetails(response?.data);
+    //   } catch (err) {
+    //     const error = err as AxiosError<{ message: string }>;
+    //     toast.error(error.response?.data?.message || "Something went wrong");
+    //   }
+    //   setLoading(false);
+    //   return <td>{groupDetails?.name || "Loading..."}</td>;
+    // };
     
     const handleOpenQuizForm = (title: string, mode: "add" | "edit" | "view") => {
     setFormMode(mode);
@@ -102,6 +129,7 @@ export default function Quizzes() {
   useEffect(() => {
     getUpcomingQuizzes();
     getCompletedQuizzes();
+    // getGroups();
   }, []);
 
   return (
@@ -167,7 +195,7 @@ export default function Quizzes() {
                     <div
                       onClick={() =>
                         navigate("/dashboard/quiz-details", {
-                          state: { quiz: upcomingQuizzes[0]?._id },
+                          state: { quizId: upcomingQuizzes[0]?._id },
                         })
                       }
                       className="cursor-pointer group"
@@ -198,8 +226,8 @@ export default function Quizzes() {
                       {upcomingQuizzes[1]?.title}
                     </h2>
                     <p className="text-gray-600 text-[15px]">
-                      {formatDate(upcomingQuizzes[0].schadule).split(",")[0]} |{" "}
-                      {formatDate(upcomingQuizzes[0].schadule).split(",")[1]}
+                      {formatDate(upcomingQuizzes[1].schadule).split(",")[0]} |{" "}
+                      {formatDate(upcomingQuizzes[1].schadule).split(",")[1]}
                     </p>
                     <div className="flex justify-between items-center font-semibold text-[14px] mt-5">
                       <p>
@@ -209,7 +237,7 @@ export default function Quizzes() {
                       <div
                         onClick={() =>
                           navigate("/dashboard/quiz-details", {
-                            state: { quiz: upcomingQuizzes[0]?._id },
+                            state: { quizId: upcomingQuizzes[1]?._id },
                           })
                         }
                         className="cursor-pointer group"
@@ -315,7 +343,8 @@ export default function Quizzes() {
                         data-label="Group:"
                         className="table-data px-3 py-2 text-xs border border-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
                       >
-                        {quiz?.group}
+                        
+                        {quiz.group}
                       </td>
                       <td
                         data-label="Participants:"

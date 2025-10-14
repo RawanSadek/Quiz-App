@@ -70,6 +70,7 @@ export interface QuizTypes {
   instructor: string;
   group: string;
   questions_number: number;
+  questions: [QuestionTypes];
   schadule: string;
   duration: number;
   score_per_question: number;
