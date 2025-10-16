@@ -59,7 +59,7 @@ export interface ResultTypes {
   createdAt: string;
   questions_number: number;
   score_per_question: number;
-  closed_at: string
+  closed_at: string;
 }
 
 export interface QuizTypes {
@@ -78,7 +78,8 @@ export interface QuizTypes {
   difficulty: "easy" | "medium" | "hard";
   createdAt: string;
   updatedAt: string;
-  participants: number; 
+  participants: number;
+  code: string;
 }
 
 export interface StudentTypes {
@@ -111,6 +112,7 @@ export interface QuizFormData {
   difficulty: "easy" | "medium" | "hard";
   type: string;
   group: string;
+  code: string;
 }
 
 export interface FormDataProps {

@@ -19,8 +19,17 @@ import ResultDetails from "./Modules/Results/Components/ResultDetails";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoutes from "./Modules/Shared/Components/ProtectedRoute/ProtectedRoute";
 import UserProfile from "./Modules/UserProfile/Components/UserProfile";
+import { useSelector } from "react-redux";
+import type { RootState } from "./Modules/Redux/Store";
+import StudentsDashboard from "./Modules/Dashboard/Components/StudentsDashboard";
+import StudentsQuizzes from "./Modules/Quizzes/Components/StudentsQuizzes";
 
 function App() {
+
+  const userData = useSelector(
+    (state: RootState) => state.userProfileData.value
+  );
+
   const routes = createBrowserRouter([
     {
       path: "",
@@ -41,10 +50,10 @@ function App() {
       element: <ProtectedRoutes><MasterLayout /></ProtectedRoutes>,
       errorElement: <NotFound />,
       children: [
-        { path: "", element: <Dashboard /> },
+        { path: "", element: userData?.role === "Instructor" ? <Dashboard /> : <StudentsDashboard />, },
         { path: "groups", element: <GroupsList /> },
         { path: "students", element: <StudentsList /> },
-        { path: "quizzes", element: <Quizzes /> },
+        { path: "quizzes", element: userData?.role === "Instructor" ? <Quizzes /> : <StudentsQuizzes/> },
         { path: "quiz-details", element: <QuizDetails /> },
         { path: "questions", element: <QuestionsList /> },
         { path: "students-results", element: <ResultsList /> },

@@ -32,15 +32,12 @@ const QuizPopUp = forwardRef<
     },
   });
 
-  // Reset form when quizData changes (for edit mode)
   useEffect(() => {
   if (quizData) {
     reset({
       schadule: quizData.schadule
         ? new Date(quizData.schadule).toISOString().slice(0, 16)
-        : '',
-      score_per_question: quizData.score_per_question,
-      // ... other fields
+        : ''
     });
   }
 }, [quizData, reset]);
