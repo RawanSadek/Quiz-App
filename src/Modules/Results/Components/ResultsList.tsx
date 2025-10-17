@@ -4,7 +4,7 @@ import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import type { ResultTypes } from "../../../SERVICES/INTERFACES";
 import { FaEye } from "react-icons/fa";
-import dataLoading from "../../../assets/Images/dataLoading.gif";
+import dataLoading from "../../../assets/Images/loadingData.gif";
 import { formatDate } from "../../../SERVICES/FORMATDATE";
 import { useNavigate } from "react-router-dom";
 
@@ -135,7 +135,7 @@ export default function ResultsList() {
                     <img
                       src={dataLoading}
                       alt="loading"
-                      className="w-20 h-20 !mt-3 !mx-auto"
+                      className="w-[17%]  !mx-auto"
                     />
                   </td>
                 </tr>
