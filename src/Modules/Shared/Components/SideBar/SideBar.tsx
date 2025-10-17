@@ -18,7 +18,6 @@ export default function SideBar({
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
 }) {
-
   const userData = useSelector(
     (state: RootState) => state.userProfileData.value
   );
@@ -35,10 +34,10 @@ export default function SideBar({
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  },[setCollapsed]);
+  }, [setCollapsed]);
 
   return (
-    <Sidebar collapsed={collapsed} className="h-full " >
+    <Sidebar collapsed={collapsed} className="h-full ">
       <div className="h-full flex flex-col">
         {/* Header */}
         <div className="py-4 flex justify-evenly items-center border-b-2 border-gray-200">
@@ -50,7 +49,7 @@ export default function SideBar({
           />
           <img hidden={collapsed} src={logo} alt="logo" />
         </div>
-        <Menu >
+        <Menu>
           <MenuItem
             component={<Link to="/dashboard" />}
             className={`${
@@ -69,6 +68,26 @@ export default function SideBar({
             />
             Dashboard
           </MenuItem>
+          {userData?.role == "Instructor" && (
+            <MenuItem
+              component={<Link to="/dashboard/students" />}
+              className={`${
+                currentPage?.includes("students") && !currentPage?.includes("students-results")
+                  ? "border-e-4 border-e-black"
+                  : ""
+              } text-black border-b-2 border-gray-200 font-semibold`}
+            >
+              {" "}
+              <HiOutlineUserGroup
+                className={`${
+                  currentPage?.includes("students") && !currentPage?.includes("students-results")
+                    ? "bg-black text-[#FFEDDF]"
+                    : "bg-[#FFEDDF]"
+                } rounded-lg p-1 text-4xl inline !me-4 !mb-2 transition-all duration-250`}
+              />
+              Students
+            </MenuItem>
+          )}
           {userData?.role == "Instructor" && (
             <MenuItem
               component={<Link to="/dashboard/groups" />}

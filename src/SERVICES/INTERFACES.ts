@@ -11,9 +11,9 @@ export interface UserDataTypes {
   first_name: string;
   last_name: string;
   role: "Instructor" | "Student";
-  _id:string;
-  status:string;
-  profilePicture?:string;
+  _id: string;
+  status: string;
+  profilePicture?: string;
 }
 
 export interface ResetPasswordTypes {
@@ -38,16 +38,16 @@ export interface QuestionTypes {
   title: string;
   description: string;
   options: {
-    "A": string;
-    "B": string;
-    "C": string;
-    "D": string;
+    A: string;
+    B: string;
+    C: string;
+    D: string;
     _id: string;
   };
   answer: "A" | "B" | "C" | "D";
   difficulty: "easy" | "medium" | "hard";
   points?: number;
-  type: string
+  type: string;
 }
 
 export interface ResultTypes {
@@ -56,11 +56,63 @@ export interface ResultTypes {
   description: string;
   difficulty: "easy" | "medium" | "hard";
   type: string;
-  closed_at: string; 
   createdAt: string;
   questions_number: number;
   score_per_question: number;
-  participants?: any[]; 
+  closed_at: string;
+}
+
+export interface QuizTypes {
+  _id: string;
+  title: string;
+  description: string;
+  status: "draft" | "published";
+  instructor: string;
+  group: string;
+  questions_number: number;
+  questions: [QuestionTypes];
+  schadule: string;
+  duration: number;
+  score_per_question: number;
+  type: string;
+  difficulty: "easy" | "medium" | "hard";
+  createdAt: string;
+  updatedAt: string;
+  participants: number;
+  code: string;
+}
+
+export interface StudentTypes {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  status: "active" | "inactive";
+  role: "Student";
+  createdAt?: string;
+  updatedAt?: string;
+  avg_score?: number;
+  rank?: number;
+  group?: GroupTypes;
+}
+
+export interface AddStudentFormData {
+  name: string;
+  phone: string;
+}
+
+export interface QuizFormData {
+  title: string;
+  duration: number;
+  questions_number: number;
+  score_per_question: number;
+  description: string;
+  schadule: string;
+  difficulty: "easy" | "medium" | "hard";
+  type: string;
+  group: string;
+  code: string;
 }
 
 export interface FormDataProps {
@@ -71,19 +123,8 @@ export interface FormDataProps {
 export interface GroupTypes {
   _id?: string;
   name: string;
-  instructor: string
-  status: 'active' | 'inactive';
-  students: [StudentTypes]
+  instructor: string;
+  status: "active" | "inactive";
+  students: [StudentTypes];
   max_students: number;
-}
-
-export interface StudentTypes {
-  _id?: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  role: 'Student';
-  avg_score: number;
-  group: GroupTypes;
-  status: 'active' | 'inactive';
 }

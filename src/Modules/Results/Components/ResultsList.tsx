@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function ResultsList() {
   const [results, setResult] = useState<
-    { quiz: ResultTypes; participants: any[] }[]
+    { quiz: ResultTypes; participants: number }[]
   >([]);
   const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -135,7 +135,10 @@ export default function ResultsList() {
                     <img
                       src={dataLoading}
                       alt="loading"
+
                       className="w-[17%]  !mx-auto"
+
+
                     />
                   </td>
                 </tr>

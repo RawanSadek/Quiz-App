@@ -33,7 +33,6 @@ export default function Login() {
   const onSubmit = async (data: loginDataTypes) => {
     try {
       const response = await axiosInstance.post(AUTH_URLS.LOGIN, data);
-      console.log(response)
       localStorage.setItem('token', response?.data?.data?.accessToken);
       localStorage.setItem('profile', JSON.stringify(response?.data?.data?.profile));
       dispatch(getUserProfileData()); 
