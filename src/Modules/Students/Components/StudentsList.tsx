@@ -1,18 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance, STUDENTS_URLS } from "../../../SERVICES/ENDPOINTS";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import type {
-  StudentTypes,
-  AddStudentFormData,
-} from "../../../SERVICES/INTERFACES";
+import type { StudentTypes } from "../../../SERVICES/INTERFACES";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { FiEdit2 } from "react-icons/fi";
 import DeleteConfirmation from "../../Shared/Components/DeleteConfirmation/DeleteConfirmation";
-import FormPopUp from "../../Shared/Components/FormPopUp/FormPopUp";
-import StudentsPopUp from "./StudentsPopUp";
 import dataLoading from "../../../assets/Images/loadingData.gif";
-import { MdOutlineAddCircle } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
 
 export default function StudentsList() {
   const [students, setStudents] = useState<StudentTypes[]>([]);
@@ -20,13 +14,6 @@ export default function StudentsList() {
   const [targetId, setTargetId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<number>(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formTitle, setFormTitle] = useState("");
-  const [formMode, setFormMode] = useState<"add" | "edit" | "view">("add");
-  const [currentStudent, setCurrentStudent] = useState<StudentTypes | null>(
-    null
-  );
-  const formRef = useRef<{ submitForm: () => Promise<boolean> }>(null);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,74 +51,6 @@ export default function StudentsList() {
     } finally {
       setIsDeleteModalOpen(false);
       setTargetId(null);
-    }
-  };
-
-  const handleOpenStudentForm = (
-    title: string,
-    mode: "add" | "edit" | "view",
-    student?: StudentTypes
-  ) => {
-    setFormMode(mode);
-    setFormTitle(title);
-    setCurrentStudent(student || null);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseClick = () => {
-    setIsModalOpen(false);
-    setTargetId(null);
-    setCurrentStudent(null);
-  };
-
-  const handleSaveClick = async () => {
-    const success = await formRef.current?.submitForm();
-    if (success) {
-      handleCloseClick();
-      setCurrentPage(1); // Reset to first page
-      getStudents();
-    }
-  };
-
-  const handleSaveStudent = async (data: AddStudentFormData) => {
-    try {
-      const studentData = {
-        first_name: data.name.split(" ")[0] || data.name,
-        last_name: data.name.split(" ").slice(1).join(" ") || "",
-        email:
-          currentStudent?.email ||
-          `${data.name.toLowerCase().replace(/\s+/g, ".")}@example.com`,
-        phone: data.phone,
-        role: "Student" as const,
-        status: "active",
-      };
-
-      if (formMode === "edit" && currentStudent?._id) {
-        // Update existing student
-        const response = await axiosInstance.put(
-          STUDENTS_URLS.UPDATE_STUDENT(currentStudent._id),
-          studentData
-        );
-        toast.success(
-          response?.data?.message || "Student updated successfully"
-        );
-      } else {
-        // Create new student
-        const response = await axiosInstance.post(
-          STUDENTS_URLS.CREATE_STUDENT,
-          studentData
-        );
-        toast.success(response?.data?.message || "Student added successfully");
-      }
-      return true;
-    } catch (error) {
-      console.log("API call failed, but showing success for demo:", error);
-      toast.success(
-        formMode === "edit"
-          ? "Student updated successfully"
-          : "Student added successfully"
-      );
-      return true;
     }
   };
 
@@ -194,13 +113,6 @@ export default function StudentsList() {
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-100">
         <h2 className="text-xl font-semibold text-gray-900">Students list</h2>
-        <button
-          onClick={() => handleOpenStudentForm("Add New Student", "add")}
-          className="flex items-center gap-2 px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition-colors cursor-pointer"
-        >
-          <MdOutlineAddCircle className="text-[26px] cursor-pointer me-1" />
-          <span className="font-semibold">Add Student</span>
-        </button>
       </div>
 
       {/* Group Tabs */}
@@ -226,7 +138,7 @@ export default function StudentsList() {
       <div className="p-6">
         {loading && (
           <div className="flex justify-center items-center py-20">
-             <img src={dataLoading} alt="loading" className="w-[15%]" />
+            <img src={dataLoading} alt="loading" className="w-[15%]" />
           </div>
         )}
 
@@ -288,15 +200,7 @@ export default function StudentsList() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        handleOpenStudentForm("Edit Student", "edit", student);
-                      }}
-                      className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-blue-50 transition-colors group"
-                      title="Edit student"
-                    >
-                      <FiEdit2 className="text-blue-500 text-sm" />
-                    </button>
+                    <FaEye className="cursor-pointer text-xl" />
 
                     <button
                       onClick={() => {
@@ -306,7 +210,7 @@ export default function StudentsList() {
                       className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-red-50 transition-colors group"
                       title="Delete student"
                     >
-                      <RiDeleteBin6Line className="text-red-500 text-sm" />
+                      <RiDeleteBin6Line className="cursor-pointer text-xl" />
                     </button>
                   </div>
                 </div>
@@ -363,16 +267,7 @@ export default function StudentsList() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        handleOpenStudentForm("Edit Student", "edit", student);
-                      }}
-                      className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-blue-50 transition-colors group"
-                      title="Edit student"
-                    >
-                      <FiEdit2 className="text-blue-500 text-sm" />
-                    </button>
-
+                    <FaEye className="cursor-pointer text-xl" />
                     <button
                       onClick={() => {
                         setTargetId(student._id);
@@ -381,7 +276,7 @@ export default function StudentsList() {
                       className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-red-50 transition-colors group"
                       title="Delete student"
                     >
-                      <RiDeleteBin6Line className="text-red-500 text-sm" />
+                      <RiDeleteBin6Line className="cursor-pointer text-xl" />
                     </button>
                   </div>
                 </div>
@@ -452,30 +347,6 @@ export default function StudentsList() {
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleConfirmDelete}
         entity="student"
-      />
-
-      {/* Student Form PopUp */}
-      <FormPopUp
-        isOpen={isModalOpen}
-        onClose={handleCloseClick}
-        onSave={handleSaveClick}
-        title={formTitle}
-        mode={formMode}
-        content={
-          <StudentsPopUp
-            mode={formMode}
-            onSave={handleSaveStudent}
-            studentData={
-              currentStudent
-                ? {
-                    name: `${currentStudent.first_name} ${currentStudent.last_name}`.trim(),
-                    phone: currentStudent.phone || "",
-                  }
-                : undefined
-            }
-            ref={formRef}
-          />
-        }
       />
     </div>
   );
