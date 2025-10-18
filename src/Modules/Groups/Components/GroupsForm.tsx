@@ -6,7 +6,7 @@ import type {
 } from "../../../SERVICES/INTERFACES";
 import { REQUIRED_VALIDATION } from "../../../SERVICES/VALIDATIONS";
 import { useForm } from "react-hook-form";
-import { axiosInstance, GROUPS_URLS } from "../../../SERVICES/ENDPOINTS";
+import { axiosInstance, GROUPS_URLS, STUDENTS_URLS } from "../../../SERVICES/ENDPOINTS";
 import { toast } from "react-toastify";
 import type { AxiosError } from "axios";
 import dataLoading from "../../../assets/Images/loadingData.gif";
@@ -93,12 +93,11 @@ const GroupsForm = forwardRef(({ id, mode }: FormDataProps, ref) => {
     setLoading(false);
   };
 
+  // get all students that have no group
   const getStudents = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(
-        "https://upskilling-egypt.com:3005/api/student"
-      );
+      const response = await axiosInstance(STUDENTS_URLS.GET_ALL_WITHOUT_GROUP)
       setStudentsList(response?.data);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
