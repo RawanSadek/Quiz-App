@@ -38,8 +38,6 @@ export default function QuestionsList() {
   };
 
   const filterQuestions = async () => {
-    console.log(difficulty)
-    console.log(type)
     setLoading(true);
     try {
       const response = await axiosInstance.post(QUESTIONS_URLS.SEARCH, {}, {
@@ -97,8 +95,8 @@ export default function QuestionsList() {
   const handleSaveClick = async () => {
     const success = await formRef.current?.submitForm();
     if (success) {
-      handleCloseClick();
       getQuestions();
+      handleCloseClick();
     }
   };
 
@@ -228,7 +226,7 @@ export default function QuestionsList() {
                 </tr>
               )}
 
-              {!loading && filteredQuestions.length === 0 && (
+              {(!loading && filteredQuestions?.length == 0) && (
                 <tr>
                   <td colSpan={6} className="text-center pt-20 text-gray-400">
                     No questions found

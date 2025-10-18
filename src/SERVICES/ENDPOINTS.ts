@@ -68,6 +68,7 @@ export const QUIZZES_URLS = {
 // STUDENTS_URLS
 export const STUDENTS_URLS = {
   GET_ALL: `${baseURL}/student`,
+  GET_ALL_WITHOUT_GROUP: `${baseURL}/student/without-group`,
   CREATE_STUDENT: `${baseURL}/student`,
   GET_TOP_STUDENTS: `${baseURL}/student/top-students`,
   GET_BY_ID: (id: string) => `${baseURL}/student/${id}`,
