@@ -10,6 +10,7 @@ import logo from "../../../../assets/Images/Logo icon.png";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { GrDocumentTime } from "react-icons/gr";
 import { TfiHelpAlt } from "react-icons/tfi";
+import { PiStudent } from "react-icons/pi";
 
 export default function SideBar({
   collapsed,
@@ -78,7 +79,7 @@ export default function SideBar({
               } text-black border-b-2 border-gray-200 font-semibold`}
             >
               {" "}
-              <HiOutlineUserGroup
+              <PiStudent
                 className={`${
                   currentPage?.includes("students") && !currentPage?.includes("students-results")
                     ? "bg-black text-[#FFEDDF]"
