@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthLayout from "./Modules/Shared/Components/AuthLayout/AuthLayout";
+import NotFound from "./Modules/Shared/Components/NotFound/NotFound";
+import Login from "./Modules/AuthModule/Components/Login/Login";
+import Register from "./Modules/AuthModule/Components/Register/Register";
+import ForgotPassword from "./Modules/AuthModule/Components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./Modules/AuthModule/Components/ResetPassword/ResetPassword";
+import ChangePassword from "./Modules/AuthModule/Components/ChangePassword/ChangePassword";
+import MasterLayout from "./Modules/Shared/Components/MasterLayout/MasterLayout";
+import Dashboard from "./Modules/Dashboard/Components/Dashboard";
+import GroupsList from "./Modules/Groups/Components/GroupsList";
+import StudentsList from "./Modules/Students/Components/StudentsList";
+import Quizzes from "./Modules/Quizzes/Components/Quizzes";
+import QuizDetails from "./Modules/Quizzes/Components/QuizDetails";
+import QuestionsList from "./Modules/Questions/Components/QuestionsList";
+import ResultsList from "./Modules/Results/Components/ResultsList";
+import ResultDetails from "./Modules/Results/Components/ResultDetails";
+import { ToastContainer } from "react-toastify";
+import ProtectedRoutes from "./Modules/Shared/Components/ProtectedRoute/ProtectedRoute";
+import UserProfile from "./Modules/UserProfile/Components/UserProfile";
+import { useSelector } from "react-redux";
+import type { RootState } from "./Modules/Redux/Store";
+import StudentsDashboard from "./Modules/Dashboard/Components/StudentsDashboard";
+import StudentsQuizzes from "./Modules/Quizzes/Components/StudentsQuizzes";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const userData = useSelector(
+    (state: RootState) => state.userProfileData.value
+  );
+
+  const routes = createBrowserRouter([
+    {
+      path: "",
+      element: <AuthLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { path: "", element: <Login /> },
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+        { path: "forgot-password", element: <ForgotPassword /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        { path: "change-password", element: <ChangePassword /> },
+      ],
+    },
+
+    {
+      path: "dashboard",
+      element: <ProtectedRoutes><MasterLayout /></ProtectedRoutes>,
+      errorElement: <NotFound />,
+      children: [
+        { path: "", element: userData?.role === "Instructor" ? <Dashboard /> : <StudentsDashboard />, },
+        { path: "groups", element: <GroupsList /> },
+        { path: "students", element: <StudentsList /> },
+        { path: "quizzes", element: userData?.role === "Instructor" ? <Quizzes /> : <StudentsQuizzes/> },
+        { path: "quiz-details", element: <QuizDetails /> },
+        { path: "questions", element: <QuestionsList /> },
+        { path: "students-results", element: <ResultsList /> },
+        { path: "my-results", element: <ResultsList /> },
+        { path: "quiz-result-details", element: <ResultDetails /> },
+        { path: "my-profile", element: <UserProfile /> },
+      ],
+    },
+  ]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ToastContainer position="top-center" autoClose={3000} theme="dark"/>
+      <RouterProvider router={routes}></RouterProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
