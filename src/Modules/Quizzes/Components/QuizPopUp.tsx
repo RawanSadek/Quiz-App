@@ -27,8 +27,8 @@ const QuizPopUp = forwardRef<
       description: "",
       schadule: "",
       difficulty: "easy",
-      type: "FE",
-      group: "JSB",
+      type: "",
+      group: "",
     },
   });
 

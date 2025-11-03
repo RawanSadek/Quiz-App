@@ -88,6 +88,7 @@ export default function Quizzes() {
         quizData
       );
       toast.success(response?.data?.message || "Quiz created successfully");
+      toast.success(`Quiz code: ${response?.data?.data?.code}`);
       return true;
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;

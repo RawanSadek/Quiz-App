@@ -64,6 +64,7 @@ export default function StudentsQuizzes() {
     const success = await formRef.current?.submitForm();
     if (success) {
       handleCloseClick();
+      // navigate(`/dashboard/qioz-page`)
     }
   };
 
@@ -75,7 +76,8 @@ export default function StudentsQuizzes() {
 
     try {
       const response = await axiosInstance.post(QUIZZES_URLS.JOIN_QUIZ, code);
-      toast.success(response?.data?.message || "Quiz created successfully");
+      navigate(`/dashboard/quiz/${response?.data?.data?.quiz}`);
+      toast.success(response?.data?.message || "Quiz joined successfully");
       return true;
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
@@ -141,11 +143,7 @@ export default function StudentsQuizzes() {
                       {upcomingQuizzes[0]?.participants}
                     </p>
                     <div
-                      onClick={() =>
-                        navigate("/dashboard/quiz-details", {
-                          state: { quizId: upcomingQuizzes[0]?._id },
-                        })
-                      }
+                      onClick={() => handleOpenQuizForm("Join Quiz", "add")}
                       className="cursor-pointer group"
                     >
                       Open
@@ -183,11 +181,7 @@ export default function StudentsQuizzes() {
                         {upcomingQuizzes[1]?.participants}
                       </p>
                       <div
-                        onClick={() =>
-                          navigate("/dashboard/quiz-details", {
-                            state: { quizId: upcomingQuizzes[1]?._id },
-                          })
-                        }
+                        onClick={() => handleOpenQuizForm("Join Quiz", "add")}
                         className="cursor-pointer group"
                       >
                         Open
