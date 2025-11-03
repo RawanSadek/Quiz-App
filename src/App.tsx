@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "./Modules/Redux/Store";
 import StudentsDashboard from "./Modules/Dashboard/Components/StudentsDashboard";
 import StudentsQuizzes from "./Modules/Quizzes/Components/StudentsQuizzes";
+import QuizPage from "./Modules/Quizzes/Components/QuizPage";
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
         { path: "students", element: <StudentsList /> },
         { path: "quizzes", element: userData?.role === "Instructor" ? <Quizzes /> : <StudentsQuizzes/> },
         { path: "quiz-details", element: <QuizDetails /> },
+        { path: "quiz/:quizId", element: <QuizPage /> },
         { path: "questions", element: <QuestionsList /> },
         { path: "students-results", element: <ResultsList /> },
         { path: "my-results", element: <ResultsList /> },

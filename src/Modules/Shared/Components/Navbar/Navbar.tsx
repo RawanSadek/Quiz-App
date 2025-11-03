@@ -27,7 +27,12 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const currentPage = pathname.split("/").pop()?.replace("-", " "); // Get the last part of the path
+
+  let currentPage
+  if(pathname.includes('/dashboard/quiz/'))
+    currentPage = 'Quiz';
+  else
+    currentPage = pathname.split("/").pop()?.replace("-", " "); // Get the last part of the path
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -70,7 +75,7 @@ export default function Navbar() {
 
   const handleSaveQuizData = async (data: QuizFormData) => {
     try {
-      console.log("Form data received:", data);
+      // console.log("Form data received:", data);
 
       // Use the first available group ID, or fallback to form data
       const groupId =
@@ -78,8 +83,8 @@ export default function Navbar() {
           ? availableGroups[0]._id
           : data.group;
 
-      console.log("Available groups:", availableGroups);
-      console.log("Selected group ID:", groupId);
+      // console.log("Available groups:", availableGroups);
+      // console.log("Selected group ID:", groupId);
 
       // Ensure reasonable values to avoid "not enough questions" error
       const questionsNumber = Math.min(data.questions_number || 5, 10); // Max 10 questions
@@ -97,20 +102,20 @@ export default function Navbar() {
         status: "open" as const,
       };
 
-      console.log("Adjusted questions number:", questionsNumber);
+      // console.log("Adjusted questions number:", questionsNumber);
 
-      console.log("Sending quiz data to API:", quizData);
-      console.log("API URL:", QUIZZES_URLS.CREATE_QUIZ);
-      console.log(
-        `Creating quiz with ${questionsNumber} questions, difficulty: ${data.difficulty}, type: ${data.type}`
-      );
+      // console.log("Sending quiz data to API:", quizData);
+      // console.log("API URL:", QUIZZES_URLS.CREATE_QUIZ);
+      // console.log(
+      //   `Creating quiz with ${questionsNumber} questions, difficulty: ${data.difficulty}, type: ${data.type}`
+      // );
 
       const response = await axiosInstance.post(
         QUIZZES_URLS.CREATE_QUIZ,
         quizData
       );
 
-      console.log("API Response:", response.data);
+      // console.log("API Response:", response.data);
       toast.success(response?.data?.message || "Quiz created successfully");
       return true;
     } catch (error) {

@@ -61,6 +61,7 @@ export const QUIZZES_URLS = {
   GET_BY_ID: (id: string) => `${baseURL}/quiz/${id}`,
   CREATE_QUIZ: `${baseURL}/quiz`,
   JOIN_QUIZ: `${baseURL}/quiz/join`,
+  QUESTIONS_WITHOUT_ANSWERS: (id: string) => `${baseURL}/quiz/without-answers/${id}`,
   UPDATE_QUIZ: (id: string) => `${baseURL}/quiz/${id}`,
   DELETE_QUIZ: (id: string) => `${baseURL}/quiz/${id}`,
 };

@@ -17,19 +17,7 @@ const JoinQuizPopUp = forwardRef<
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<QuizFormData>({
-    defaultValues: quizData || {
-      title: "",
-      duration: 10,
-      questions_number: 5,
-      score_per_question: 1,
-      description: "",
-      schadule: "",
-      difficulty: "easy",
-      type: "FE",
-      group: "JSB",
-    },
-  });
+  } = useForm<QuizFormData>();
 
   const onSubmit = async (data: QuizFormData) => {
     if (onSave) {
